@@ -1,6 +1,5 @@
 package bigcookingdata_engine.business.engine;
 
-import java.lang.reflect.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ import bigcookingdata_engine.business.data.recipe.Recipe;
 import bigcookingdata_engine.db_connection.SingletonConnection;
 
 /**
- * class implement methods to the engine search
+ * class implement methods for engine search
  * 
  * @author sofiane-hamiti
  *

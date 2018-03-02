@@ -12,7 +12,6 @@ import com.mysql.jdbc.Statement;
 
 public final class SingletonConnection {
 	public Connection conn;
-	private Statement statement;
 	public static SingletonConnection db;
 
 	/*
