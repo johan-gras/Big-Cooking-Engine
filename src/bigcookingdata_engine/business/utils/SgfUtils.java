@@ -1,4 +1,4 @@
-package sgf;
+package bigcookingdata_engine.business.utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,10 +16,10 @@ import java.util.List;
 public class SgfUtils {
 
 	/**
-	 * Method pour créer un fichier txt
+	 * Method pour lire une ligne bien spécifique
 	 * 
-	 * @param name
-	 *            le nom du ficher
+	 * @param line
+	 *            numéro de la ligne
 	 */
 
 	public String readLine(int line) {
