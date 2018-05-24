@@ -16,7 +16,7 @@ public abstract class ConnNeo4jJDBC implements java.sql.Connection {
 	public static void main(String[] args) throws Exception {
 		ArrayList<Recipe> al = new ArrayList<>();
 		// ICI VOUS POUVEZ METTRE COMBIEN VOUS VOULEZ D INGREDIENT
-		al = getRecipesByIngred("","tomates");
+		al = getRecipesByIngred("lait de coco", "blettes", "échalotes","oignons");
 		System.out.println(al.size());
 		// getStepByIdRecip(498);
 		// for(int i=0; i<al.size();i++){
@@ -27,7 +27,7 @@ public abstract class ConnNeo4jJDBC implements java.sql.Connection {
 		// userDISLike("sofiane","hami","rhubarbes",6);
 		// System.out.println("end");
 
-		getUtensilByRecipId(10);
+		//getUtensilByRecipId(10);
 	}
 
 	public static ArrayList<Recipe> getRecipesByIngred(String... ingred) throws SQLException, JSONException {
@@ -61,7 +61,7 @@ public abstract class ConnNeo4jJDBC implements java.sql.Connection {
 			java.sql.ResultSet rs = stmt.executeQuery(q1 + q2 + q3.substring(0, q3.length() - 1) + q4);
 			while (rs.next()) {
 				String result = rs.getString(1);
-				// System.out.println(result);
+				 System.out.println(result);
 				JSONObject json = new JSONObject(result);
 				Recipe recipe = new Recipe();
 				recipe.setTimeTotal(json.getString("timetotal"));
