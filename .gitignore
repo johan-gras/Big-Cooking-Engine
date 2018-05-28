@@ -128,3 +128,9 @@ fabric.properties
 
 # End of https://www.gitignore.io/api/eclipse,intellij
 
+# Intelijj Idea
+.idea
+*.iml
+
+# Libs
+lib

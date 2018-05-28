@@ -1,9 +1,6 @@
-package bigcookingdata_engine.db_connection;
+package bigcookingdata_engine.database;
 
 import java.sql.DriverManager;
-import java.sql.SQLException;
-
-import org.neo4j.driver.internal.spi.Connection;
 
 /**
  * Singleton connection for neo4j

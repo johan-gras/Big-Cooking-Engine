@@ -1,4 +1,4 @@
-package bigcookingdata_engine.db_connection;
+package bigcookingdata_engine.database;
 
 import java.sql.*;
 import java.util.ArrayList;

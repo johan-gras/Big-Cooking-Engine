@@ -1,8 +1,7 @@
-package bigcookingdata_engine.db_connection;
+package bigcookingdata_engine.database;
 
 import java.sql.DriverManager;
 import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
 
 /**
  * @desc A singleton database access class
