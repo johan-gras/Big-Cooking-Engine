@@ -16,7 +16,7 @@ public class SerchEngin {
 
 	private static java.sql.Connection conn = null;
 
-	public static ArrayList<Recipe> getRecipe(String keyWord){
+	public  ArrayList<Recipe> getRecipe(String keyWord){
 		
 		ArrayList<Recipe> result = new ArrayList<>();
 		
@@ -44,19 +44,18 @@ public class SerchEngin {
 				recipe.setIdRecipe(json.getInt("idRecipe"));
 				recipe.setBudget(json.getInt("budget"));
 				result.add(recipe);
-				System.out.println(recipe.toString());
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
-		
 		return result;
 	}
-	
-	public static void main(String[] args) throws Exception {
-	
-		getRecipe("veau");
-	
-	}
 
+//public static void main(String[] args) {
+//	ArrayList<Recipe> r = new ArrayList<>();
+//	r= getRecipe("fromage");
+//	System.out.println(r.size());
+//	
+//}
+	
 }

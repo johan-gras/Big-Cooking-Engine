@@ -12,7 +12,32 @@ public class Recipe {
 	public String title;
 	public int idRecipe;
 	public int budget;
+
 	
+	
+	public Recipe(String timeTotal, String categorie, int level, int nbOfPerson, String timeCooking, float rating,
+			String timePrepa, String title, int idRecipe, int budget) {
+		super();
+		this.timeTotal = timeTotal;
+		this.categorie = categorie;
+		this.level = level;
+		this.nbOfPerson = nbOfPerson;
+		this.timeCooking = timeCooking;
+		this.rating = rating;
+		this.timePrepa = timePrepa;
+		this.title = title;
+		this.idRecipe = idRecipe;
+		this.budget = budget;
+	}
+	
+	
+	
+	public Recipe() {
+		super();
+	}
+
+
+
 	public String getTimeTotal() {
 		return timeTotal;
 	}
