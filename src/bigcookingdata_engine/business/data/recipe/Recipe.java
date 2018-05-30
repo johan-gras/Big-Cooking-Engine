@@ -1,7 +1,9 @@
 package bigcookingdata_engine.business.data.recipe;
 
+import java.util.Arrays;
+
 public class Recipe {
-	
+    
 	private String timeTotal;
 	private String[] categorie;
 	private int level;
@@ -128,5 +130,23 @@ public class Recipe {
 
     public void setCluster(int cluster) {
         this.cluster = cluster;
+    }
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "timeTotal='" + timeTotal + '\'' +
+                ", categorie=" + Arrays.toString(categorie) +
+                ", level=" + level +
+                ", nbOfPerson=" + nbOfPerson +
+                ", timeCooking='" + timeCooking + '\'' +
+                ", rating=" + rating +
+                ", timePrepa='" + timePrepa + '\'' +
+                ", title='" + title + '\'' +
+                ", idRecipe=" + idRecipe +
+                ", budget=" + budget +
+                ", ingredients_id=" + Arrays.toString(ingredients_id) +
+                ", cluster=" + cluster +
+                '}';
     }
 }

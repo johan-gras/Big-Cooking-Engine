@@ -7,12 +7,15 @@ import java.util.List;
 import org.json.*;
 import org.parboiled.common.ImmutableList;
 
-import bigcookingdata_engine.business.data.recipe.*;;
+import bigcookingdata_engine.business.data.recipe.Recipe;
+import bigcookingdata_engine.business.data.recipe.Step;
+import bigcookingdata_engine.business.data.recipe.Utensil;
+
 
 public abstract class ConnNeo4jJDBC implements java.sql.Connection {
 
 	private static java.sql.Connection conn = null;
-
+ 
 	public static void main(String[] args) throws Exception {
 		ArrayList<Recipe> al = new ArrayList<>();
 		// ICI VOUS POUVEZ METTRE COMBIEN VOUS VOULEZ D INGREDIENT
@@ -61,11 +64,11 @@ public abstract class ConnNeo4jJDBC implements java.sql.Connection {
 			java.sql.ResultSet rs = stmt.executeQuery(q1 + q2 + q3.substring(0, q3.length() - 1) + q4);
 			while (rs.next()) {
 				String result = rs.getString(1);
-				 System.out.println(result);
+				System.out.println(result);
 				JSONObject json = new JSONObject(result);
 				Recipe recipe = new Recipe();
 				recipe.setTimeTotal(json.getString("timetotal"));
-				recipe.setCategorie((json.getString("categorie").split(",")));
+				recipe.setCategorie((String) json.getString("categorie").replaceAll(",","" ).replaceAll("[\\[\\]]", "").replaceAll("'", ""));
 				recipe.setLevel(json.getInt("level"));
 				recipe.setNbOfPerson(json.getInt("number_of_person"));
 				recipe.setTimeCooking(json.getString("timecooking"));
