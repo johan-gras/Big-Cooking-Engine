@@ -3,7 +3,7 @@ package bigcookingdata_engine.business.data.recipe;
 public class Recipe {
 	
 	public String timeTotal;
-	public String[] categorie;
+	public String categorie;
 	public int level;
 	public int nbOfPerson;
 	public String timeCooking;
@@ -19,11 +19,11 @@ public class Recipe {
 	public void setTimeTotal(String timeTotal) {
 		this.timeTotal = timeTotal;
 	}
-	public String[] getCategorie() {
+	public String getCategorie() {
 		return categorie;
 	}
-	public void setCategorie(String[] categorie) {
-		this.categorie = categorie;
+	public void setCategorie(String string) {
+		this.categorie = string;
 	}
 	public int getLevel() {
 		return level;
@@ -73,5 +73,11 @@ public class Recipe {
 	public void setBudget(int budget) {
 		this.budget = budget;
 	}
-
+	@Override
+	public String toString() {
+		return "Recipe [timeTotal=" + timeTotal + ", categorie=" + categorie + ", level=" + level + ", nbOfPerson="
+				+ nbOfPerson + ", timeCooking=" + timeCooking + ", rating=" + rating + ", timePrepa=" + timePrepa
+				+ ", title=" + title + ", idRecipe=" + idRecipe + ", budget=" + budget + "]";
+	}
+	
 }
