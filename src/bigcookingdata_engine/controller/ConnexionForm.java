@@ -1,5 +1,7 @@
 package bigcookingdata_engine.controller;
 
+import bigcookingdata_engine.business.engine.Session;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -16,8 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 public class ConnexionForm extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private final String userID = "aa@aa.aa";
-	private final String password = "aa";
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -29,24 +29,21 @@ public class ConnexionForm extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		String user = request.getParameter("user");
-		String pwd = request.getParameter("pwd");
-		
-		if(userID.equals(user) && password.equals(pwd)){
-			
-			Cookie loginCookie = new Cookie("user",user);
-			loginCookie.setMaxAge(30*60);
-			response.addCookie(loginCookie);
-			response.sendRedirect("index.jsp");
-			
-		}else{
-			
-			RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.jsp");
-			PrintWriter out= response.getWriter();
-			out.println("<font color=red>Either user name or password is wrong.</font>");
-			rd.include(request, response);
-		}
+        Session session = Session.getInstance();
+        String name = session.connection(request.getParameter("user"), request.getParameter("pwd"));
 
+        if (name != null){
+            Cookie loginCookie = new Cookie("user",name);
+            loginCookie.setMaxAge(30*60);
+            response.addCookie(loginCookie);
+            response.sendRedirect("index.jsp");
+        }
+        else {
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.jsp");
+            PrintWriter out= response.getWriter();
+            out.println("<font color=red>Either user name or password is wrong.</font>");
+            rd.include(request, response);
+        }
 	}
 
 }
