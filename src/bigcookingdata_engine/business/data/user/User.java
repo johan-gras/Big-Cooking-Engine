@@ -24,14 +24,6 @@ public class User {
 		super();
 	}
 
-	/**
-	 * Constructor fields
-	 * 
-	 * @param name
-	 * @param surname
-	 * @param sexe
-	 * @param weight
-	 */
 	public User(int id, String name, String surname, String sexe, double weight) {
 		super();
 		this.name = name;

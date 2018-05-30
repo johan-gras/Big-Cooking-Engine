@@ -2,9 +2,9 @@ package bigcookingdata_engine.business.data.recipe;
 
 public class Step {
 	
-	public int idStep;
-	public int numberStep;
-	public String descStep;
+	private int idStep;
+	private int numberStep;
+	private String descStep;
 	
 	public int getIdStep() {
 		return idStep;
