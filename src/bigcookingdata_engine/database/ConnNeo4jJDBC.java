@@ -2,6 +2,7 @@ package bigcookingdata_engine.database;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.json.*;
@@ -19,8 +20,8 @@ public abstract class ConnNeo4jJDBC implements java.sql.Connection {
 	public static void main(String[] args) throws Exception {
 		ArrayList<Recipe> al = new ArrayList<>();
 		// ICI VOUS POUVEZ METTRE COMBIEN VOUS VOULEZ D INGREDIENT
-		al = getRecipesByIngred("lait de coco", "blettes", "échalotes","oignons");
-		System.out.println(al.size());
+		//getRecipesByIngred("lait de coco", "blettes", "échalotes","oignons");
+		//System.out.println(al.size());
 		// getStepByIdRecip(498);
 		// for(int i=0; i<al.size();i++){
 		// System.out.println(al.get(i).title);
@@ -31,6 +32,9 @@ public abstract class ConnNeo4jJDBC implements java.sql.Connection {
 		// System.out.println("end");
 
 		//getUtensilByRecipId(10);
+		int[] i={1,5,6};
+		//getRecipes(i);
+		getRecipesByIngred(i);
 	}
 
 	public static ArrayList<Recipe> getRecipesByIngred(String... ingred) throws SQLException, JSONException {
@@ -44,8 +48,9 @@ public abstract class ConnNeo4jJDBC implements java.sql.Connection {
 
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
-			String q1 = "MATCH (r:Recipe)-[:IS_COMPOSED_TO]->";
-			String q4 = " RETURN r";
+			String match= "MATCH ";
+			String q1 = "(r:Recipe)-[:IS_COMPOSED_TO]->";
+			String returne = " RETURN r";
 
 			String q2 = "";
 			String q3 = "";
@@ -55,20 +60,19 @@ public abstract class ConnNeo4jJDBC implements java.sql.Connection {
 
 			else if (ing.size() > 1) {
 				for (String i : ing) {
-					q3 += "(" + i.replaceAll(" ", "") + ":Ingredient{nameIngred : '" + i + "'}),";
+					q3 += q1+"(" + i.replaceAll(" ", "") + ":Ingredient{nameIngred : '" + i + "'}),";
 				}
 			}
 
-			// System.out.println(q1+q2+q3.substring(0, q3.length() - 1)+q4);
-
-			java.sql.ResultSet rs = stmt.executeQuery(q1 + q2 + q3.substring(0, q3.length() - 1) + q4);
+			 System.out.println(match+q2+q3.substring(0, q3.length() - 1) + returne);
+			java.sql.ResultSet rs = stmt.executeQuery(match+q2+q3.substring(0, q3.length() - 1) + returne);
 			while (rs.next()) {
 				String result = rs.getString(1);
 				System.out.println(result);
 				JSONObject json = new JSONObject(result);
 				Recipe recipe = new Recipe();
 				recipe.setTimeTotal(json.getString("timetotal"));
-				recipe.setCategorie((String) json.getString("categorie").replaceAll(",","" ).replaceAll("[\\[\\]]", "").replaceAll("'", ""));
+// erreur ici				recipe.setCategorie((String) json.getString("categorie").replaceAll(",","" ).replaceAll("[\\[\\]]", "").replaceAll("'", ""));
 				recipe.setLevel(json.getInt("level"));
 				recipe.setNbOfPerson(json.getInt("number_of_person"));
 				recipe.setTimeCooking(json.getString("timecooking"));
@@ -156,5 +160,113 @@ public abstract class ConnNeo4jJDBC implements java.sql.Connection {
 
 		}
 	}
+	
+	public static ArrayList<Recipe> getRecipes(int[] idRecipe) throws SQLException, JSONException {
+
+		ArrayList<Recipe> al = new ArrayList<>();
+
+		// Connect
+		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
+		conn = sc.conn;
+		try (java.sql.Statement stmt = conn.createStatement()) {
+			for(int i=0;i<idRecipe.length;i++){
+			java.sql.ResultSet rs = stmt.executeQuery("MATCH (r:Recipe{idRecipe:'"+idRecipe[i]+"'}) RETURN r");
+			while (rs.next()) {
+				String result = rs.getString(1);
+				System.out.println(result);
+				JSONObject json = new JSONObject(result);
+				Recipe recipe = new Recipe();
+				recipe.setTimeTotal(json.getString("timetotal"));
+// erreur ici				recipe.setCategorie((String) json.getString("categorie").replaceAll(",","" ).replaceAll("[\\[\\]]", "").replaceAll("'", ""));
+				recipe.setLevel(json.getInt("level"));
+				recipe.setNbOfPerson(json.getInt("number_of_person"));
+				recipe.setTimeCooking(json.getString("timecooking"));
+				recipe.setRating((float) json.getDouble("rating"));
+				recipe.setTimePrepa(json.getString("timeprepa"));
+				recipe.setTitle(json.getString("title"));
+				recipe.setIdRecipe(json.getInt("idRecipe"));
+				recipe.setBudget(json.getInt("budget"));
+				al.add(recipe);
+
+			}
+		}}
+		return al;
+	}
+
+	
+	public static ArrayList<Recipe> getRecipesByIngred(int[] idIngred) throws SQLException, JSONException {
+
+		ArrayList<Recipe> al = new ArrayList<>();
+
+		// Connect
+		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
+		conn = sc.conn;
+
+		// Querying
+		try (java.sql.Statement stmt = conn.createStatement()) {
+			String match="MATCH ";
+			String q1 = "(r:Recipe)-[:IS_COMPOSED_TO]->";
+			String returne = " RETURN r";
+
+			String q2 = "";
+			String q3 = "";
+			for (int i=0; i<idIngred.length;i++) {
+			if (idIngred.length == 1)
+				q2 = q1+"(Ingredient{idIngred : '" + idIngred[i] + "'})";
+
+			else if (idIngred.length > 1) {
+				
+					q3 += q1+"(i" + i + ":Ingredient{idIngred : '" + idIngred[i] + "'}),";
+				}
+			}
+
+			//System.out.println(match + q2+q3.substring(0, q3.length() - 1)+returne);
+
+			java.sql.ResultSet rs = stmt.executeQuery(match + q2+q3.substring(0, q3.length() - 1)+returne);
+			while (rs.next()) {
+				String result = rs.getString(1);
+				System.out.println(result);
+				JSONObject json = new JSONObject(result);
+				Recipe recipe = new Recipe();
+				recipe.setTimeTotal(json.getString("timetotal"));
+// erreur ici				recipe.setCategorie((String) json.getString("categorie").replaceAll(",","" ).replaceAll("[\\[\\]]", "").replaceAll("'", ""));
+				recipe.setLevel(json.getInt("level"));
+				recipe.setNbOfPerson(json.getInt("number_of_person"));
+				recipe.setTimeCooking(json.getString("timecooking"));
+				recipe.setRating((float) json.getDouble("rating"));
+				recipe.setTimePrepa(json.getString("timeprepa"));
+				recipe.setTitle(json.getString("title"));
+				recipe.setIdRecipe(json.getInt("idRecipe"));
+				recipe.setBudget(json.getInt("budget"));
+				al.add(recipe);
+
+			}
+		}
+		return al;
+	}
+	
+	public static int[] getRecipesByCluster(int cluster) throws SQLException, JSONException {
+
+		int[] recipes_id={};
+		// Connect
+		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
+		conn = sc.conn;
+		// Querying
+		try (java.sql.Statement stmt = conn.createStatement()) {
+
+			java.sql.ResultSet rs = stmt.executeQuery("/*ICI LE REQUETE( J AI PAS LA VERSION AVEC CLUSTER )*/");
+			while (rs.next()) {
+				String result = rs.getString(1);
+				System.out.println(result);
+				JSONObject json = new JSONObject(result);
+				int id=json.getInt("idRecipe");
+				recipes_id  = Arrays.copyOf(recipes_id, recipes_id.length + 1);
+			    recipes_id[recipes_id.length - 1] = id;
+			}
+		}
+		return recipes_id;
+	}
+	
+	
 
 }
