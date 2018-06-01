@@ -3,113 +3,9 @@ package bigcookingdata_engine.business.data.recipe;
 import java.util.Arrays;
 
 public class Recipe {
-<<<<<<< HEAD
-	
-	public String timeTotal;
-	public String categorie;
-	public int level;
-	public int nbOfPerson;
-	public String timeCooking;
-	public float rating;
-	public String timePrepa;
-	public String title;
-	public int idRecipe;
-	public int budget;
 
 	
-	
-	public Recipe(String timeTotal, String categorie, int level, int nbOfPerson, String timeCooking, float rating,
-			String timePrepa, String title, int idRecipe, int budget) {
-		super();
-		this.timeTotal = timeTotal;
-		this.categorie = categorie;
-		this.level = level;
-		this.nbOfPerson = nbOfPerson;
-		this.timeCooking = timeCooking;
-		this.rating = rating;
-		this.timePrepa = timePrepa;
-		this.title = title;
-		this.idRecipe = idRecipe;
-		this.budget = budget;
-	}
-	
-	
-	
-	public Recipe() {
-		super();
-	}
 
-
-
-	public String getTimeTotal() {
-		return timeTotal;
-	}
-	public void setTimeTotal(String timeTotal) {
-		this.timeTotal = timeTotal;
-	}
-	public String getCategorie() {
-		return categorie;
-	}
-	public void setCategorie(String string) {
-		this.categorie = string;
-	}
-	public int getLevel() {
-		return level;
-	}
-	public void setLevel(int level) {
-		this.level = level;
-	}
-	public int getNbOfPerson() {
-		return nbOfPerson;
-	}
-	public void setNbOfPerson(int nbOfPerson) {
-		this.nbOfPerson = nbOfPerson;
-	}
-	public String getTimeCooking() {
-		return timeCooking;
-	}
-	public void setTimeCooking(String timeCooking) {
-		this.timeCooking = timeCooking;
-	}
-	public float getRating() {
-		return rating;
-	}
-	public void setRating(float rating) {
-		this.rating = rating;
-	}
-	public String getTimePrepa() {
-		return timePrepa;
-	}
-	public void setTimePrepa(String timePrepa) {
-		this.timePrepa = timePrepa;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public int getIdRecipe() {
-		return idRecipe;
-	}
-	public void setIdRecipe(int idRecipe) {
-		this.idRecipe = idRecipe;
-	}
-	public int getBudget() {
-		return budget;
-	}
-	public void setBudget(int budget) {
-		this.budget = budget;
-	}
-	@Override
-	public String toString() {
-		return "Recipe [timeTotal=" + timeTotal + ", categorie=" + categorie + ", level=" + level + ", nbOfPerson="
-				+ nbOfPerson + ", timeCooking=" + timeCooking + ", rating=" + rating + ", timePrepa=" + timePrepa
-				+ ", title=" + title + ", idRecipe=" + idRecipe + ", budget=" + budget + "]";
-	}
-	
-=======
-    
 	private String timeTotal;
 	private String[] categorie;
 	private int level;
@@ -255,5 +151,4 @@ public class Recipe {
                 ", cluster=" + cluster +
                 '}';
     }
->>>>>>> 28133365a46bcd6b390e1d794e8e2f2ea733734b
 }

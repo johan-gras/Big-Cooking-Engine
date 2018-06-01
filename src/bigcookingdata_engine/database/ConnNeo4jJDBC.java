@@ -8,6 +8,7 @@ import java.util.List;
 import org.json.*;
 import org.parboiled.common.ImmutableList;
 
+import bigcookingdata_engine.business.data.recipe.Ingredient;
 import bigcookingdata_engine.business.data.recipe.Recipe;
 import bigcookingdata_engine.business.data.recipe.Step;
 import bigcookingdata_engine.business.data.recipe.Utensil;
@@ -34,7 +35,10 @@ public abstract class ConnNeo4jJDBC implements java.sql.Connection {
 		//getUtensilByRecipId(10);
 		int[] i={1,5,6};
 		//getRecipes(i);
-		getRecipesByIngred(i);
+		//getRecipesByIngred(i);
+		//getIngreds(i);
+		//getSteps(4);
+		getUtensil(5);
 	}
 
 	public static ArrayList<Recipe> getRecipesByIngred(String... ingred) throws SQLException, JSONException {
@@ -88,8 +92,8 @@ public abstract class ConnNeo4jJDBC implements java.sql.Connection {
 		return al;
 	}
 
-	public static ArrayList<Step> getStepByIdRecip(int idRecip) throws SQLException, JSONException {
-		ArrayList<Step> al = new ArrayList<>();
+	public static ArrayList<Step> getSteps(int idRecip) throws SQLException, JSONException {
+		ArrayList<Step> stepList = new ArrayList<>();
 		Step step = new Step();
 		// Connect
 		java.sql.Connection con = DriverManager
@@ -98,21 +102,22 @@ public abstract class ConnNeo4jJDBC implements java.sql.Connection {
 		// Querying
 		try (java.sql.Statement stmt = con.createStatement()) {
 			java.sql.ResultSet rs = stmt.executeQuery("MATCH (r:Recipe{idRecipe:'" + idRecip
-					+ "'})-[:HAS_STEP]->(s:Step) RETURN distinct s.numberStep,s.descStep order by toInt(s.numberStep)");
+					+ "'})-[:HAS_STEP]->(s:Step) RETURN distinct s.idStep,s.numberStep,s.descStep order by toInt(s.numberStep)");
 			while (rs.next()) {
-				step.setNumberStep(rs.getInt(1));
+				step.setIdStep(Integer.parseInt(rs.getString(1)));
+				step.setNumberStep(Integer.parseInt(rs.getString(2)));
 				step.setDescStep(rs.getString(2));
-				System.out.println(rs.getString(2));
-				al.add(step);
+
+				stepList.add(step);
 			}
 		}
-		return al;
+		return stepList;
 
 	}
 
-	public static ArrayList<Utensil> getUtensilByRecipId(int idRecip) throws SQLException, JSONException {
+	public static ArrayList<Utensil> getUtensil(int idRecip) throws SQLException, JSONException {
 
-		ArrayList<Utensil> al = new ArrayList<>();
+		ArrayList<Utensil> utensilList = new ArrayList<>();
 		Utensil utensil = new Utensil();
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
@@ -120,19 +125,21 @@ public abstract class ConnNeo4jJDBC implements java.sql.Connection {
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
 			java.sql.ResultSet rs = stmt
-					.executeQuery("match (r:Recipe{idRecipe:'" + idRecip + "'})-[:USE]->(u:Utensil)" + "return u");
+					.executeQuery("match (r:Recipe{idRecipe:'" + idRecip + "'})-[:USE]->(u:Utensil) return u");
 			while (rs.next()) {
 				String result = rs.getString(1);
 				JSONObject json = new JSONObject(result);
-				System.out.println(json.getString("nameUtensil"));
-				al.add(utensil);
+				utensil.setIdUtensil(Integer.parseInt(json.getString("idUtensil")));
+				utensil.setNameUtensil(json.getString("nameUtensil"));
+
+				utensilList.add(utensil);
 			}
 		}
-		return al;
+		return utensilList;
 
 	}
 
-	public static void createUser(String name, String surname, int weight) throws SQLException {
+	public static void createUser(String name, String mail, String password) throws SQLException {
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
@@ -141,7 +148,7 @@ public abstract class ConnNeo4jJDBC implements java.sql.Connection {
 		try (java.sql.Statement stmt = conn.createStatement()) {
 
 			java.sql.ResultSet rs = stmt.executeQuery(
-					"CREATE (n:User { nameUser: '" + name + "', surname: '" + surname + "',weight:'" + weight + "' })");
+					"CREATE (n:User { nameUser: '" + name + "', mail: '" + mail + "',password: '"+password+"'})");
 
 		}
 	}
@@ -267,6 +274,33 @@ public abstract class ConnNeo4jJDBC implements java.sql.Connection {
 		return recipes_id;
 	}
 	
+	public static ArrayList<Ingredient> getIngreds(int[] idIngred) throws SQLException, JSONException{
+		
+		ArrayList<Ingredient> ingredList=new ArrayList<>();
+		// Connect
+		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
+		conn = sc.conn;
+		// Querying
+		try (java.sql.Statement stmt = conn.createStatement()) {
+			for(int j=0;j<idIngred.length;j++){
+			java.sql.ResultSet rs = stmt.executeQuery("match (i:Ingredient) where i.idIngred='"+idIngred[j]+"' return i");
+			while (rs.next()) {
+				Ingredient ing=new Ingredient();
+				String result = rs.getString(1);
+				System.out.println(result);
+				JSONObject json = new JSONObject(result);
+				ing.setId(json.getInt("idIngred"));
+				ing.setQuantity(json.getInt("quantity"));
+				ing.setName(json.getString("nameIngred"));
+				ing.setPrefix(json.getString("prefix"));
+				
+				ingredList.add(ing);
+				
+			}
+			}
+		return ingredList;
 	
-
+		}
+		}
+		
 }
