@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 
@@ -46,6 +47,7 @@
 						<b>Les ingrédients :</b>
 					</p>
 					<ul>
+						${fn:length(recettes)}
 						<li>ingrédient 1</li>
 						<li>ingréient 2</li>
 						<li>ingrédient 3</li>

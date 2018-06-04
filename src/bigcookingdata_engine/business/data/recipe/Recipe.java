@@ -7,7 +7,7 @@ public class Recipe {
 	
 
 	private String timeTotal;
-	private String[] categorie;
+	private String categorie;
 	private int level;
 	private int nbOfPerson;
 	private String timeCooking;
@@ -22,7 +22,7 @@ public class Recipe {
     public Recipe() {
     }
 
-    public Recipe(String timeTotal, String[] categorie, int level, int nbOfPerson, String timeCooking, float rating,
+    public Recipe(String timeTotal, String categorie, int level, int nbOfPerson, String timeCooking, float rating,
                   String timePrepa, String title, int idRecipe, int budget, int[] ingredients_id, int cluster) {
         this.timeTotal = timeTotal;
         this.categorie = categorie;
@@ -46,12 +46,12 @@ public class Recipe {
         this.timeTotal = timeTotal;
     }
 
-    public String[] getCategorie() {
+    public String getCategorie() {
         return categorie;
     }
 
-    public void setCategorie(String[] categorie) {
-        this.categorie = categorie;
+    public void setCategorie(String string) {
+        this.categorie = string;
     }
 
     public int getLevel() {
@@ -138,7 +138,7 @@ public class Recipe {
     public String toString() {
         return "Recipe{" +
                 "timeTotal='" + timeTotal + '\'' +
-                ", categorie=" + Arrays.toString(categorie) +
+                ", categorie=" + categorie +
                 ", level=" + level +
                 ", nbOfPerson=" + nbOfPerson +
                 ", timeCooking='" + timeCooking + '\'' +

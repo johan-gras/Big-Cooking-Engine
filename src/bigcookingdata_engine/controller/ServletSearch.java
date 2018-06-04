@@ -8,7 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import bigcookingdata_engine.business.data.recipe.Recipe;
 import bigcookingdata_engine.database.SerchEngin;;
 
@@ -27,17 +26,31 @@ public class ServletSearch extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		SerchEngin se = new SerchEngin();
+		int[] ing = new int[2];
+		ArrayList<Recipe> recipeliste = new ArrayList<>();
+		Recipe r = new Recipe( "timeTotal", "categorie", 7, 7, "timeCooking", 8,
+                "timePrepa", "title", 7, 7, ing,7 );
+		recipeliste.add(r);
+		recipeliste = se.getRecipe("fromage");
+		System.out.println("nb recettes :"+recipeliste.size());
+		request.setAttribute("recettes", recipeliste);
 		request.getRequestDispatcher("index.jsp").forward(request, response);
 
 	}
-
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		//création de l'objet recette
-		Recipe r = new Recipe("12", "Vegan", 1, 1, "1h", 5, "10min", "boeuf", 2326, 12);
+		int[] ing = new int[2];
+
+		Recipe r = new Recipe( "timeTotal", "categorie", 7, 7, "timeCooking", 8,
+                "timePrepa", "title", 7, 7, ing,7 );
+		
 		//on affécte l'objet pour le requete
 		request.setAttribute("recette", r);
 		//envoie des informations  (in faut appuier sur recherche pour envoyer les infos)
+		
 		request.getRequestDispatcher("index.jsp").forward(request, response);
 
 
