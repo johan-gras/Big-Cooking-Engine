@@ -1,7 +1,5 @@
 package bigcookingdata_engine.business.engine.recommender;
 
-import bigcookingdata_engine.database.Neo4J;
-
 import java.util.HashMap;
 import java.util.Map;
 

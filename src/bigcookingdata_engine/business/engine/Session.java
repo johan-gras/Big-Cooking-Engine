@@ -9,8 +9,7 @@ public class Session {
     private Recommender recommender;
     private Searcher searcher;
 
-    private Session() {
-    }
+    private Session() {}
 
     public static Session getInstance() {
         return ourInstance;

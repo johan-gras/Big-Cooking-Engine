@@ -1,10 +1,8 @@
 package bigcookingdata_engine.business.data.recipe;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class Recipe {
-
-	
 
 	private String timeTotal;
 	private String categorie;
@@ -16,14 +14,17 @@ public class Recipe {
 	private String title;
     private int idRecipe;
 	private int budget;
-    private int[] ingredients_id;
     private int cluster;
+    private ArrayList<Ingredient> ingredients = null;
+    private ArrayList<Step> steps = null;
+    private ArrayList<Utensil> utensils = null;
 
     public Recipe() {
     }
 
     public Recipe(String timeTotal, String categorie, int level, int nbOfPerson, String timeCooking, float rating,
-                  String timePrepa, String title, int idRecipe, int budget, int[] ingredients_id, int cluster) {
+                  String timePrepa, String title, int idRecipe, int budget, int cluster, ArrayList<Ingredient> ingredients,
+                  ArrayList<Step> steps, ArrayList<Utensil> utensils) {
         this.timeTotal = timeTotal;
         this.categorie = categorie;
         this.level = level;
@@ -34,8 +35,10 @@ public class Recipe {
         this.title = title;
         this.idRecipe = idRecipe;
         this.budget = budget;
-        this.ingredients_id = ingredients_id;
         this.cluster = cluster;
+        this.ingredients = ingredients;
+        this.steps = steps;
+        this.utensils = utensils;
     }
 
     public String getTimeTotal() {
@@ -118,14 +121,6 @@ public class Recipe {
         this.budget = budget;
     }
 
-    public int[] getIngredients_id() {
-        return ingredients_id;
-    }
-
-    public void setIngredients_id(int[] ingredients_id) {
-        this.ingredients_id = ingredients_id;
-    }
-
     public int getCluster() {
         return cluster;
     }
@@ -134,11 +129,35 @@ public class Recipe {
         this.cluster = cluster;
     }
 
+    public ArrayList<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public ArrayList<Step> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(ArrayList<Step> steps) {
+        this.steps = steps;
+    }
+
+    public ArrayList<Utensil> getUtensils() {
+        return utensils;
+    }
+
+    public void setUtensils(ArrayList<Utensil> utensils) {
+        this.utensils = utensils;
+    }
+
     @Override
     public String toString() {
         return "Recipe{" +
                 "timeTotal='" + timeTotal + '\'' +
-                ", categorie=" + categorie +
+                ", categorie='" + categorie + '\'' +
                 ", level=" + level +
                 ", nbOfPerson=" + nbOfPerson +
                 ", timeCooking='" + timeCooking + '\'' +
@@ -147,8 +166,10 @@ public class Recipe {
                 ", title='" + title + '\'' +
                 ", idRecipe=" + idRecipe +
                 ", budget=" + budget +
-                ", ingredients_id=" + Arrays.toString(ingredients_id) +
                 ", cluster=" + cluster +
+                ", ingredients=" + ingredients +
+                ", steps=" + steps +
+                ", utensils=" + utensils +
                 '}';
     }
 }
