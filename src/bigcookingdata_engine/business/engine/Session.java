@@ -1,6 +1,7 @@
 package bigcookingdata_engine.business.engine;
 
 import bigcookingdata_engine.business.data.user.User;
+import bigcookingdata_engine.business.engine.recommender.Recommender;
 
 public class Session {
     private static Session ourInstance = new Session();

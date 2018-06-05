@@ -14,15 +14,17 @@ import bigcookingdata_engine.business.data.recipe.Step;
 import bigcookingdata_engine.business.data.recipe.Utensil;
 
 
-public abstract class ConnNeo4jJDBC implements java.sql.Connection {
+public class Neo4J {
 
 	private static java.sql.Connection conn = null;
+
+	private Neo4J(){}
  
 	public static void main(String[] args) throws Exception {
 		ArrayList<Recipe> al = new ArrayList<>();
 		// ICI VOUS POUVEZ METTRE COMBIEN VOUS VOULEZ D INGREDIENT
-		//getRecipesByIngred("lait de coco", "blettes", "échalotes","oignons");
-		//System.out.println(al.size());
+		al = getRecipesByIngred("lait de coco", "blettes", "échalotes","oignons");
+		System.out.println(al.size());
 		// getStepByIdRecip(498);
 		// for(int i=0; i<al.size();i++){
 		// System.out.println(al.get(i).title);
@@ -38,7 +40,7 @@ public abstract class ConnNeo4jJDBC implements java.sql.Connection {
 		//getRecipesByIngred(i);
 		//getIngreds(i);
 		//getSteps(4);
-		getUtensil(5);
+		//getUtensil(5);
 	}
 
 	public static ArrayList<Recipe> getRecipesByIngred(String... ingred) throws SQLException, JSONException {
