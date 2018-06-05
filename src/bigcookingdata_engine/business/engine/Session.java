@@ -5,9 +5,9 @@ import bigcookingdata_engine.business.engine.recommender.Recommender;
 
 public class Session {
     private static Session ourInstance = new Session();
-    private User user;
-    private Recommender recommender;
-    private Searcher searcher;
+    private User user = null;
+    private Recommender recommender = null;
+    private Searcher searcher = null;
 
     private Session() {}
 
@@ -28,6 +28,12 @@ public class Session {
         return user_db.getName();
     }
 
+    public void deconnection(){
+        user = null;
+        recommender = null;
+        searcher = null;
+    }
+
     // Fake
     private User fake_db_connection(String user, String pwd){
         String userID = "aa@aa.aa";
@@ -45,5 +51,9 @@ public class Session {
 
     public Searcher getSearcher() {
         return searcher;
+    }
+
+    public boolean isConnected(){
+        return user != null;
     }
 }

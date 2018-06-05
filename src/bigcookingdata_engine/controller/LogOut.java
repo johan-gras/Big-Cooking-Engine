@@ -1,5 +1,7 @@
 package bigcookingdata_engine.controller;
 
+import bigcookingdata_engine.business.engine.Session;
+
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,7 +28,8 @@ public class LogOut extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("login.jsp").forward(request, response);
+        Session.getInstance().deconnection();
+		response.sendRedirect("Index");
 	}
 
 	
