@@ -19,13 +19,9 @@ public final class SingletonConnectionNeo4j {
 	public SingletonConnectionNeo4j() {
 		
 		try {
-<<<<<<< HEAD
 			Class.forName("org.neo4j.jdbc.Driver");			
 			this.conn=(java.sql.Connection) DriverManager.getConnection("jdbc:neo4j:bolt://localhost:7687/?user=neo4j,password=password,debug=true");
-=======
-			Class.forName("org.neo4j.jdbc.Driver");
-			this.conn=(java.sql.Connection) DriverManager.getConnection("jdbc:neo4j:http://localhost:7474/?user=neo4j,password=neo");
->>>>>>> branch 'master' of https://github.com/johan-gras/Big-Cooking-Engine.git
+
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
