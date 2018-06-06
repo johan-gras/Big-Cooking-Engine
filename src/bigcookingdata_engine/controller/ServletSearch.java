@@ -34,14 +34,12 @@ public class ServletSearch extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-<<<<<<< HEAD
-=======
+
 		//cr�ation de l'objet recette
 		int[] ing = new int[2];
 
 		Recipe r = new Recipe( "timeTotal", "categorie", 7, 7, "timeCooking", 8,
                 "timePrepa", "title", 7, 7,7, null,null, null );
->>>>>>> be94e4b00ee6d2997309309d8a48205931266897
 		
 		//Intialisation d'une array liste pour la récuprération des données
 		ArrayList<Recipe> listRecipe = new ArrayList<>();

@@ -34,11 +34,10 @@ public abstract class Neo4J implements java.sql.Connection {
 		//getRecipesByCluster(5); ok mais il manque les catégories
 		//getIngreds(i); ok
 		//ratingIngred("sofiane", 2, 8); ok
-		//getRatingIngred("sofiane"); ok mais à vérifier
-		//ratingCluster(String name, int id_cluster, int value) : à faire vite
-		//getRatingClusters(int id_user) : à redefinir vite
+		//getRatingIngred("sofiane"); //ok 
+		//ratingCluster(String name, int id_cluster, int value) : ok
+		//getRatingClusters("sofiane"); //: ok
 
-		
 		// getUtensilByRecipId(10);
 		// getStepByIdRecip(498);
 		// for(int i=0; i<al.size();i++){
@@ -358,7 +357,6 @@ public abstract class Neo4J implements java.sql.Connection {
 	}
 
 	public static HashMap<String, String> getRatingIngred(String name) throws SQLException {
-		
 	    HashMap<String,String> map = new HashMap<>();
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
@@ -372,11 +370,9 @@ public abstract class Neo4J implements java.sql.Connection {
 				while (rs.next()) {
 					String idIngred = rs.getString(1);
 					String score = rs.getString(2);
-					//System.out.println(idIngred);
-					//System.out.println(score);
 					map.put(idIngred,score);
-					System.out.println(map.toString());
 					}
+				System.out.println(map.toString());
 				}
 		return map;
 	}
@@ -385,16 +381,36 @@ public abstract class Neo4J implements java.sql.Connection {
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
-		String query ="";
+		String query ="MATCH (u:User{nameUser:'"+name+"'})\n" + 
+						"MATCH (c:Cluster{idCluster:'"+id_cluster+"'})\n" + 
+						"CREATE (u)-[:LIKE{rateCluster:"+value+"}]->(c)\n" + 
+						"";
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
 			java.sql.ResultSet rs = stmt.executeQuery(query);
-		}
+		} 
 	}
 
-	public int[] getRatingClusters(int id_user) {
-
-		return null;
+	public static HashMap<String, String> getRatingClusters(String name) throws SQLException{
+		HashMap<String,String> map = new HashMap<>();
+		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
+		conn = sc.conn;
+		String query ="MATCH (user:User{nameUser:'"+name+"'})-[lri:LIKE]->(cluster:Cluster) with cluster, lri.rateCluster as rateCluster\n" + 
+				"return cluster.idCluster,rateCluster";
+		System.out.println(query);
+		// Querying
+		try (java.sql.Statement stmt = conn.createStatement()) {
+				java.sql.ResultSet rs = stmt.executeQuery(query);
+				while (rs.next()) {
+					String idCluster = rs.getString(1);
+					String score = rs.getString(2);
+					map.put(idCluster,score);
+					}
+				System.out.println(map.toString());
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		return map;
 	}
 	
 	public void calculEuclideanDistance(int id_user){

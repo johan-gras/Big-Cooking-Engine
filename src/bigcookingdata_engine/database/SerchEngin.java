@@ -11,6 +11,7 @@ import bigcookingdata_engine.business.data.recipe.Recipe;
 import bigcookingdata_engine.business.data.recipe.Step;
 import bigcookingdata_engine.business.data.recipe.Utensil;
 import bigcookingdata_engine.business.data.recipe.Ingredient;
+import bigcookingdata_engine.database.*;
 
 
 /**
@@ -36,8 +37,8 @@ public class SerchEngin {
 			java.sql.ResultSet rs = stmt.executeQuery(req);
 			while (rs.next()) {
 				String r = rs.getString(1);
-
-				Neo4J n = new Neo4J();
+//Ajouter un composant dans la classe Neo4J
+//				Neo4J n = new Neo4J();
 
 				// liste des steps
 				ArrayList<Step> stepList = new ArrayList<>();
