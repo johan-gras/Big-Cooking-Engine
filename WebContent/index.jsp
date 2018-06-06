@@ -1,5 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 
@@ -21,7 +20,7 @@
 	<button type="button" class="btn btn-info btn-lg" data-toggle="modal"
 		data-target="#myModal">une recette</button>
 
-	<!-- Bare de recherche -->
+	<!-- Barre de recherche -->
 	<form action="ServletSearch" name="search" method="post">
 		<input type="text" id="searchBar" name="searchWord"
 			placeholder="mot clé"> <input type="submit" value="Chercher">
@@ -47,7 +46,6 @@
 						<b>Les ingrédients :</b>
 					</p>
 					<ul>
-						${fn:length(recettes)}
 						<li>ingrédient 1</li>
 						<li>ingréient 2</li>
 						<li>ingrédient 3</li>
@@ -56,13 +54,13 @@
 
 					<br>
 					<p>
-						<b>Les Ã©tapes :</b>
+						<b>Les étapes :</b>
 					</p>
 					<ul>
-						<li>Ã©tapes 1</li>
-						<li>Ã©tapes 2</li>
-						<li>Ã©tapes 3</li>
-						<li>Ã©tapes 4</li>
+						<li>étapes 1</li>
+						<li>étapes 2</li>
+						<li>étapes 3</li>
+						<li>étapes 4</li>
 					</ul>
 				</div>
 				<div class="modal-footer">

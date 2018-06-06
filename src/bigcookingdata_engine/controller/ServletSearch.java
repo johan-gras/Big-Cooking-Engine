@@ -41,7 +41,7 @@ public class ServletSearch extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		//crÃ©ation de l'objet recette
+		//création de l'objet recette
 		int[] ing = new int[2];
 
 		Recipe r = new Recipe( "timeTotal", "categorie", 7, 7, "timeCooking", 8,

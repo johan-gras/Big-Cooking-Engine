@@ -2,10 +2,10 @@ package bigcookingdata_engine.business.data.recipe;
 
 public class Ingredient {
     private int id;
-    private String complement;
-    private String prefix;
-    private String name;
-    private int quantity;
+    private String complement = null;
+    private String prefix = null;
+    private String name = null;
+    private int quantity = -1;
 
     public Ingredient(){
 
