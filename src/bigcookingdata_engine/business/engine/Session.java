@@ -1,15 +1,15 @@
 package bigcookingdata_engine.business.engine;
 
 import bigcookingdata_engine.business.data.user.User;
+import bigcookingdata_engine.business.engine.recommender.Recommender;
 
 public class Session {
     private static Session ourInstance = new Session();
-    private User user;
-    private Recommender recommender;
-    private Searcher searcher;
+    private User user = null;
+    private Recommender recommender = null;
+    private Searcher searcher = null;
 
-    private Session() {
-    }
+    private Session() {}
 
     public static Session getInstance() {
         return ourInstance;
@@ -26,6 +26,12 @@ public class Session {
         this.searcher = new Searcher();
 
         return user_db.getName();
+    }
+
+    public void deconnection(){
+        user = null;
+        recommender = null;
+        searcher = null;
     }
 
     // Fake
@@ -45,5 +51,9 @@ public class Session {
 
     public Searcher getSearcher() {
         return searcher;
+    }
+
+    public boolean isConnected(){
+        return user != null;
     }
 }

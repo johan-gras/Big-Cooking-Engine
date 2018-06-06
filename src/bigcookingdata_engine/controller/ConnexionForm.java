@@ -36,7 +36,7 @@ public class ConnexionForm extends HttpServlet {
             Cookie loginCookie = new Cookie("user",name);
             loginCookie.setMaxAge(30*60);
             response.addCookie(loginCookie);
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("Index");
         }
         else {
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.jsp");

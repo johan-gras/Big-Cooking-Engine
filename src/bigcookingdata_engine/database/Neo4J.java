@@ -14,7 +14,7 @@ import bigcookingdata_engine.business.data.recipe.Recipe;
 import bigcookingdata_engine.business.data.recipe.Step;
 import bigcookingdata_engine.business.data.recipe.Utensil;
 
-public abstract class ConnNeo4jJDBC implements java.sql.Connection {
+public abstract class Neo4J implements java.sql.Connection {
 
 	private static java.sql.Connection conn = null;
 
@@ -415,3 +415,5 @@ public abstract class ConnNeo4jJDBC implements java.sql.Connection {
 		
 	}
 }
+
+
