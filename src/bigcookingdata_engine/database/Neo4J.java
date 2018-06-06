@@ -21,22 +21,23 @@ public abstract class Neo4J implements java.sql.Connection {
 	public static void main(String[] args) throws Exception {
 		ArrayList<Recipe> al = new ArrayList<>();
 		ArrayList<Utensil> sl = new ArrayList<>();
-		int[] i = { 1, 5, 6 };
+		int[] i = { 1};
+		getRecipesByIngred(i);
 
 		// ICI VOUS POUVEZ METTRE COMBIEN VOUS VOULEZ D INGREDIENT
-		//getRecipesByIngred("pommes","bananes"); ok
+		//getRecipesByIngred("pommes","bananes");
 		//getSteps(10); ok
 		//getUtensil(5); ok
 		//createUser("sofiane","hami","70"); ok
 		//userLike("sofiane","hami","rhubarbes",6); Nok
-		//getRecipes(i); ok mais il manque les catégories
-		//getRecipesByIngred(i); ok mais il manque les catégories
-		//getRecipesByCluster(5); ok mais il manque les catégories
+		//getRecipes(i); ok mais il manque les catï¿½gories
+		//getRecipesByIngred(i); ok mais il manque les catï¿½gories
+		//getRecipesByCluster(5); ok mais il manque les catï¿½gories
 		//getIngreds(i); ok
 		//ratingIngred("sofiane", 2, 8); ok
-		//getRatingIngred("sofiane"); ok mais à vérifier
-		//ratingCluster(String name, int id_cluster, int value) : à faire vite
-		//getRatingClusters(int id_user) : à redefinir vite
+		//getRatingIngred("sofiane"); ok mais ï¿½ vï¿½rifier
+		//ratingCluster(String name, int id_cluster, int value) : ï¿½ faire vite
+		//getRatingClusters(int id_user) : ï¿½ redefinir vite
 
 		
 		// getUtensilByRecipId(10);
@@ -45,6 +46,7 @@ public abstract class Neo4J implements java.sql.Connection {
 		// System.out.println(al.get(i).title);
 		// }
 		//System.out.println(sl);
+
 	}
 
 	public static ArrayList<Recipe> getRecipesByIngred(String... ingred) throws SQLException, JSONException {
@@ -241,27 +243,32 @@ public abstract class Neo4J implements java.sql.Connection {
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
-
-		// Querying
-		try (java.sql.Statement stmt = conn.createStatement()) {
-			String match = "MATCH ";
-			String q1 = "(r:Recipe)-[:IS_COMPOSED_TO]->";
-			String returne = " RETURN r";
-
-			String q2 = "";
-			String q3 = "";
-			for (int i = 0; i < idIngred.length; i++) {
-				if (idIngred.length == 1)
-					q2 = q1 + "(Ingredient{idIngred : '" + idIngred[i] + "'})";
-
-				else if (idIngred.length > 1) {
-
-					q3 += q1 + "(i" + i + ":Ingredient{idIngred : '" + idIngred[i] + "'}),";
+		String query="";
+		if(idIngred.length==1)
+				query="MATCH (r:Recipe)-[:IS_COMPOSED_TO]->(i:Ingredient{idIngred : '" + idIngred[0] + "'}) RETURN r";
+		else{
+			// Querying
+			
+				String match = "MATCH ";
+				String q1 = "(r:Recipe)-[:IS_COMPOSED_TO]->";
+				String returne = " RETURN r";
+	
+				String q2 = "";
+				String q3 = "";
+				for (int i = 0; i < idIngred.length; i++) {
+					if (idIngred.length == 1)
+						q2 = q1 + "(Ingredient{idIngred : '" + idIngred[i] + "'})";
+	
+					else if (idIngred.length > 1) {
+	
+						q3 += q1 + "(i" + i + ":Ingredient{idIngred : '" + idIngred[i] + "'}),";
+					}
 				}
+				query=match + q2 + q3.substring(0, q3.length() - 1) + returne;
+
 			}
-
-
-			java.sql.ResultSet rs = stmt.executeQuery(match + q2 + q3.substring(0, q3.length() - 1) + returne);
+		try (java.sql.Statement stmt = conn.createStatement()) {
+			java.sql.ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				String result = rs.getString(1);
 				System.out.println(result);

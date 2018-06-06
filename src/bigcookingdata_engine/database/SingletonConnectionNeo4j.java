@@ -20,7 +20,7 @@ public final class SingletonConnectionNeo4j {
 		
 		try {
 			Class.forName("org.neo4j.jdbc.Driver");			
-			this.conn=(java.sql.Connection) DriverManager.getConnection("jdbc:neo4j:bolt://localhost:7687/?user=neo4j,password=password,debug=true");
+			this.conn=(java.sql.Connection) DriverManager.getConnection("jdbc:neo4j:bolt://localhost:7687/?user=neo4j,password=passw0rd,debug=true");
 
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
