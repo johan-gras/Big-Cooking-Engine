@@ -29,14 +29,14 @@ public abstract class ConnNeo4jJDBC implements java.sql.Connection {
 		//getUtensil(5); ok
 		//createUser("sofiane","hami","70"); ok
 		//userLike("sofiane","hami","rhubarbes",6); Nok
-		//getRecipes(i); ok mais il manque les catégories
-		//getRecipesByIngred(i); ok mais il manque les catégories
-		//getRecipesByCluster(5); ok mais il manque les catégories
+		//getRecipes(i); ok mais il manque les catï¿½gories
+		//getRecipesByIngred(i); ok mais il manque les catï¿½gories
+		//getRecipesByCluster(5); ok mais il manque les catï¿½gories
 		//getIngreds(i); ok
 		//ratingIngred("sofiane", 2, 8); ok
-		//getRatingIngred("sofiane"); ok mais à vérifier
-		//ratingCluster(String name, int id_cluster, int value) : à faire vite
-		//getRatingClusters(int id_user) : à redefinir vite
+		//getRatingIngred("sofiane"); ok mais ï¿½ vï¿½rifier
+		//ratingCluster(String name, int id_cluster, int value) : ï¿½ faire vite
+		//getRatingClusters(int id_user) : ï¿½ redefinir vite
 
 		
 		// getUtensilByRecipId(10);
