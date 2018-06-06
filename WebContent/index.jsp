@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 
@@ -17,62 +17,74 @@
 </head>
 
 <body>
-	<!-- Trigger the modal with a button -->
-	<button type="button" class="btn btn-info btn-lg" data-toggle="modal"
-		data-target="#myModal">une recette</button>
+
 
 	<!-- Bare de recherche -->
 	<form action="ServletSearch" name="search" method="post">
 		<input type="text" id="searchBar" name="searchWord"
 			placeholder="mot clé"> <input type="submit" value="Chercher">
 	</form>
-	<!-- Modal -->
-	<div id="myModal" class="modal fade" role="dialog">
-		<div class="modal-dialog">
 
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">${recette.title}</h4>
-				</div>
-				<div class="modal-body">
-					<hr>
-					<b>Temps : </b>${recette.timeTotal }, <b>Catégorie: </b>${recette.categorie },
-					<b>Level: </b>${recette.level }, <b>Nombre de personne: </b>${recette.nbOfPerson },
-					<b>Temps de cuisson: </b>${recette.timeCooking },
-					<hr>
-					<br>
-					<p>
-						<b>Les ingrédients :</b>
-					</p>
-					<ul>
-						${fn:length(recettes)}
-						<li>ingrédient 1</li>
-						<li>ingréient 2</li>
-						<li>ingrédient 3</li>
-						<li>ingrédient 4</li>
-					</ul>
+	<!-- affichage des recettes -->
 
-					<br>
-					<p>
-						<b>Les Ã©tapes :</b>
-					</p>
-					<ul>
-						<li>Ã©tapes 1</li>
-						<li>Ã©tapes 2</li>
-						<li>Ã©tapes 3</li>
-						<li>Ã©tapes 4</li>
-					</ul>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	<c:forEach items="${recettes}" var="recette">
+		<div class="card" style="width: 18rem;">
+			<div class="card-header">Featured</div>
+
+			<ul class="list-group list-group-flush">
+				<li><a type="button" data-toggle="modal" data-target="#myModal">${recette.title}</a></li>
+			</ul>
+
+
+
+			<!-- Modal -->
+			<div id="myModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">${recette.title}</h4>
+						</div>
+						<div class="modal-body">
+							<hr>
+							<b>Temps : </b>${recette.timeTotal }, <b>Catégorie: </b>${recette.categorie },
+							<b>Level: </b>${recette.level }, <b>Nombre de personne: </b>${recette.nbOfPerson },
+							<b>Temps de cuisson: </b>${recette.timeCooking },
+							<hr>
+							<br>
+							<p>
+								<b>Les ingrédients :</b>
+							</p>
+							<ul>
+							<c:forEach items="${recette.ingredients}" var="ing">
+								<li>${ing.name}</li>
+								</c:forEach>
+							</ul>
+
+							<br>
+							<p>
+								<b>Les Etapes :</b>
+							</p>
+							<ul>
+							<c:forEach items="${recette.steps}" var="step">
+								<b>${step.numberStep} </b> <li>${step.descStep}</li>
+								</c:forEach>
+							</ul>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">Close</button>
+						</div>
+					</div>
+
 				</div>
 			</div>
-
-		</div>
 	</div>
-
+	</c:forEach>
+	
+	<!-- fin modal -->
 
 
 </body>

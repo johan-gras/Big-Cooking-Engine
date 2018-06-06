@@ -19,7 +19,7 @@ public class Neo4J {
 
 	private static java.sql.Connection conn = null;
 
-	private Neo4J(){}
+	Neo4J(){}
  
 	public static void main(String[] args) throws Exception {
 		ArrayList<Recipe> al = new ArrayList<>();
@@ -40,7 +40,7 @@ public class Neo4J {
 		// getRecipesByIngred(i);
 		// getIngreds(i);
 		// getSteps(4);
-		getUtensil(5);
+		//getUtensil(5);
 	}
 
 	public static ArrayList<Recipe> getRecipesByIngred(String... ingred) throws SQLException, JSONException {
@@ -96,7 +96,7 @@ public class Neo4J {
 		return al;
 	}
 
-	public static ArrayList<Step> getSteps(int idRecip) throws SQLException, JSONException {
+	public ArrayList<Step> getSteps(int idRecip) throws SQLException, JSONException {
 		ArrayList<Step> stepList = new ArrayList<>();
 		Step step = new Step();
 		// Connect
@@ -119,7 +119,7 @@ public class Neo4J {
 
 	}
 
-	public static ArrayList<Utensil> getUtensil(int idRecip) throws SQLException, JSONException {
+	public ArrayList<Utensil> getUtensil(int idRecip) throws SQLException, JSONException {
 
 		ArrayList<Utensil> utensilList = new ArrayList<>();
 		Utensil utensil = new Utensil();
@@ -135,7 +135,6 @@ public class Neo4J {
 				JSONObject json = new JSONObject(result);
 				utensil.setIdUtensil(Integer.parseInt(json.getString("idUtensil")));
 				utensil.setNameUtensil(json.getString("nameUtensil"));
-
 				utensilList.add(utensil);
 			}
 		}
@@ -270,8 +269,14 @@ public class Neo4J {
 		}
 		return recipes_id;
 	}
-
-	public static ArrayList<Ingredient> getIngreds(int[] idIngred) throws SQLException, JSONException {
+/**
+ * Liste des ingrediant by IdRecipe
+ * @param idRecipe
+ * @return
+ * @throws SQLException
+ * @throws JSONException
+ */
+	public ArrayList<Ingredient> getIngreds(int idRecipe) throws SQLException, JSONException {
 
 		ArrayList<Ingredient> ingredList = new ArrayList<>();
 		// Connect
@@ -279,22 +284,19 @@ public class Neo4J {
 		conn = sc.conn;
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
-			for (int j = 0; j < idIngred.length; j++) {
 				java.sql.ResultSet rs = stmt
-						.executeQuery("match (i:Ingredient) where i.idIngred='" + idIngred[j] + "' return i");
+						.executeQuery("match (:Recipe{idRecipe:'" + idRecipe + "'})-[:IS_COMPOSED_TO]->(i:Ingredient) return i");
 				while (rs.next()) {
 					Ingredient ing = new Ingredient();
 					String result = rs.getString(1);
-					System.out.println(result);
 					JSONObject json = new JSONObject(result);
 					ing.setId(json.getInt("idIngred"));
-					ing.setQuantity(json.getInt("quantity"));
+					//ing.setQuantity(json.getInt("quantity"));
 					ing.setName(json.getString("nameIngred"));
-					ing.setPrefix(json.getString("prefix"));
-
+					//ing.setPrefix(json.getString("prefix"));
 					ingredList.add(ing);
 
-				}
+				
 			}
 			return ingredList;
 
