@@ -28,33 +28,30 @@ public class ServletSearch extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		SerchEngin se = new SerchEngin();
+		ArrayList<Recipe> recipeliste = new ArrayList<>();
+		Recipe r = new Recipe( "timeTotal", "categorie", 7, 7, "timeCooking", 8,
+                "timePrepa", "title", 7, 7 ,7, null, null, null );
+		recipeliste.add(r);
+		recipeliste = se.getRecipe("fromage");
+		System.out.println("nb recettes :"+recipeliste.size());
+		request.setAttribute("recettes", recipeliste);
 		request.getRequestDispatcher("index.jsp").forward(request, response);
 
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-<<<<<<< HEAD
-=======
 		//cr�ation de l'objet recette
 		int[] ing = new int[2];
 
 		Recipe r = new Recipe( "timeTotal", "categorie", 7, 7, "timeCooking", 8,
                 "timePrepa", "title", 7, 7,7, null,null, null );
->>>>>>> be94e4b00ee6d2997309309d8a48205931266897
 		
-		//Intialisation d'une array liste pour la récuprération des données
-		ArrayList<Recipe> listRecipe = new ArrayList<>();
-				
-		SerchEngin se = new SerchEngin();
-		
-		//recupération des inforamtions de la bare de recheche
-		String keyWord = request.getParameter("searchWord");
-		listRecipe = se.getRecipe(keyWord);
-		
-		request.setAttribute("recettes", listRecipe);
-		
+		//on affécte l'objet pour le requete
+		request.setAttribute("recette", r);
 		//envoie des informations  (in faut appuier sur recherche pour envoyer les infos)
+		
 		request.getRequestDispatcher("index.jsp").forward(request, response);
 
 
