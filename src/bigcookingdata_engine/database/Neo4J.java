@@ -372,6 +372,8 @@ public abstract class Neo4J implements java.sql.Connection {
 				while (rs.next()) {
 					String idIngred = rs.getString(1);
 					String score = rs.getString(2);
+					//System.out.println(idIngred);
+					//System.out.println(score);
 					map.put(idIngred,score);
 					System.out.println(map.toString());
 					}
@@ -413,5 +415,3 @@ public abstract class Neo4J implements java.sql.Connection {
 		
 	}
 }
-
-
