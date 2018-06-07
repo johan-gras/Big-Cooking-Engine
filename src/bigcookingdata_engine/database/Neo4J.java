@@ -440,6 +440,37 @@ public abstract class Neo4J implements java.sql.Connection {
 		return null;
 		
 	}
+	
+	/**
+	 * Methode pour la suggestion des recettes
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public static Ingredient getIngeByName(String name) {
+		java.sql.Connection conn = null;
+		String r = null;
+		// connect
+		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
+		conn = sc.conn;
+		Ingredient i = new Ingredient();
+		// requête
+		String req = "match (i:Ingredient{nameIngred:'" + name + "'}) return i;";
+
+		try {
+			java.sql.Statement stmt = conn.createStatement();
+			java.sql.ResultSet rs = stmt.executeQuery(req);
+			while (rs.next()) {
+				r = rs.getString(1);
+				JSONObject json = new JSONObject(r);
+				i.setName(name);
+				i.setId(json.getInt("idIngred"));
+			}
+		} catch (Exception e) {
+		}
+
+		return i;
+	}
 }
 
 
