@@ -1,12 +1,12 @@
 package bigcookingdata_engine.database;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import bigcookingdata_engine.business.data.user.User;
 import org.json.*;
 import org.parboiled.common.ImmutableList;
 
@@ -24,11 +24,8 @@ public abstract class Neo4J implements java.sql.Connection {
 		ArrayList<Utensil> sl = new ArrayList<>();
 
 		int[] i = { 1};
-		//createUser("a", "a", "a");
-        //ratingIngred("a", 2, 10);
-        //System.out.println(getRatingIngred("a"));
-        //ratingCluster("a", 3, 20);
-        System.out.println(getRatingClusters("a"));
+		//createUser("aa@aa.aa", "", "a");
+		//System.out.println(connection("a", "a"));
 	}
 
 	public static ArrayList<Recipe> getRecipesByIngred(String... ingred) throws SQLException, JSONException {
@@ -146,7 +143,32 @@ public abstract class Neo4J implements java.sql.Connection {
 		}
 	}
 
-	public static void userLike(String name, String surname, String ingredient, int score) throws SQLException {
+	public static User connection(String name, String pwd) {
+        User user = new User();
+        String query = "MATCH (u:User {nameUser:'" + name + "', password:'" + pwd + "'}) return u";
+        System.out.println(query);
+
+        // Connect
+        conn = SingletonConnectionNeo4j.getDbConnection().conn;
+
+        // Querying
+        try (java.sql.Statement stmt = conn.createStatement()) {
+            java.sql.ResultSet rs = stmt.executeQuery(query);
+            if (!rs.next())
+                return null;
+
+            String r = rs.getString(1);
+            JSONObject json = new JSONObject(r);
+            user.setName(json.getString("nameUser"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+        public static void userLike(String name, String surname, String ingredient, int score) throws SQLException {
 		String query = "MATCH (a:User),(b:Ingredient{nameIngred:'" + ingredient + "'})" + "WHERE a.nameUser = '" + name
 				+ "' AND a.surname='" + surname + "'" + "CREATE (a)-[r:LIKE{score:'" + score + "'}]->(b);";
 		System.out.println(query);
