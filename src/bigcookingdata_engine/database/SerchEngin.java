@@ -3,6 +3,11 @@ package bigcookingdata_engine.database;
 import java.util.ArrayList;
 
 import org.json.JSONObject;
+import bigcookingdata_engine.business.data.recipe.Recipe;
+import bigcookingdata_engine.business.data.recipe.Step;
+import bigcookingdata_engine.business.data.recipe.Utensil;
+import bigcookingdata_engine.business.data.recipe.Ingredient;
+import bigcookingdata_engine.database.*;
 
 import bigcookingdata_engine.business.data.recipe.Recipe;
 
@@ -29,6 +34,18 @@ public class SerchEngin {
 			java.sql.ResultSet rs = stmt.executeQuery(req);
 			while (rs.next()) {
 				String r = rs.getString(1);
+//Ajouter un composant dans la classe Neo4J
+//				Neo4J n = new Neo4J();
+
+				// liste des steps
+				ArrayList<Step> stepList = new ArrayList<>();
+
+				// liste ustesil
+				ArrayList<Utensil> utensilList = new ArrayList<>();
+
+				//liste Ingerdient
+				ArrayList<Ingredient> ingList = new ArrayList<>();
+				
 				// System.out.println(r);
 				JSONObject json = new JSONObject(r);
 				Recipe recipe = new Recipe();

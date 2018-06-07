@@ -42,6 +42,7 @@ public class ServletSearch extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		//création de l'objet recette
 		int[] ing = new int[2];
 
