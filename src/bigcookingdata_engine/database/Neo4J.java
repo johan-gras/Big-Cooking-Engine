@@ -420,15 +420,24 @@ public abstract class Neo4J implements java.sql.Connection {
 		return map;
 	}
 	
-	public void calculEuclideanDistance(int id_user){
-		/*
-		 * MATCH (u1:user)-[x:LIKE]->(i:ingredient),
-		 * 			(u2:user)-[y:LIKE]->(i)
-		 * WHERE id(u1)<id(u2)
-		 * WITH sqrt(sum((x.score-y.score)^2)) AS euc , u1, u2
-		 * MERGE (u1)-[d:DISTANCE]->(u2)
-		 * SET d.euclidean=euc;
-		 * */
+	public void calculEuclideanDistance(int id_user) throws SQLException{
+
+		  
+
+		
+		// Connect
+		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
+		conn = sc.conn;
+		String query ="MATCH (u1:user)-[x:LIKE]->(i:ingredient),"
+		 			+"(u2:user)-[y:LIKE]->(i)"
+		 			+"WHERE id(u1)<id(u2)"
+		 			+" WITH sqrt(sum((x.score-y.score)^2)) AS euc , u1, u2"
+		+" MERGE (u1)-[d:DISTANCE]->(u2)"
+		 +"SET d.euclidean=euc;";
+		// Querying
+		try (java.sql.Statement stmt = conn.createStatement()) {
+			java.sql.ResultSet rs = stmt.executeQuery(query);
+		}
 	}
 	
 	
