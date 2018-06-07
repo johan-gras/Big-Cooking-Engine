@@ -10,8 +10,6 @@ public class RecommenderByIngred extends RecommenderCell {
     @Override
     HashMap<Integer, Integer> scoring() {
         HashMap<Integer, Integer> map = new HashMap<>();
-        Session.getInstance().connection("aa@aa.aa", "aa");
-        System.out.println(Session.getInstance().getUser().getName());
         HashMap<Integer, Integer> rating = Neo4J.getRatingIngred(Session.getInstance().getUser().getName());
 
         for(Map.Entry<Integer, Integer> e : rating.entrySet()){
