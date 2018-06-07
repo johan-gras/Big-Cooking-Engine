@@ -1,6 +1,7 @@
 package bigcookingdata_engine.business.engine.recommender;
 
 import bigcookingdata_engine.business.data.recipe.Recipe;
+import bigcookingdata_engine.database.Neo4J;
 
 import java.util.*;
 
@@ -9,7 +10,7 @@ public class Recommender {
     private ArrayList<RecommenderCell> cells = new ArrayList<>();
 
     public Recommender(){
-        cells.add(new RecommenderByCluster());
+        //cells.add(new RecommenderByCluster());
         cells.add(new RecommenderByIngred());
     }
 
@@ -51,6 +52,7 @@ public class Recommender {
                 id_recipes.add(id);
         }
         System.out.println(id_recipes);
+        recipes_perso = Neo4J.getRecipes(id_recipes.stream().mapToInt(i -> i).toArray());
     }
 
     public static void main(String[] args){

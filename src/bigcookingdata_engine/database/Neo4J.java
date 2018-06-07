@@ -21,32 +21,12 @@ public abstract class Neo4J implements java.sql.Connection {
 	public static void main(String[] args) throws Exception {
 		ArrayList<Recipe> al = new ArrayList<>();
 		ArrayList<Utensil> sl = new ArrayList<>();
+
 		int[] i = { 1};
-		getRecipesByIngred(i);
-
-		// ICI VOUS POUVEZ METTRE COMBIEN VOUS VOULEZ D INGREDIENT
-		//getRecipesByIngred("pommes","bananes");
-		//getSteps(10); ok
-		//getUtensil(5); ok
-		//createUser("sofiane","hami","70"); ok
-		//userLike("sofiane","hami","rhubarbes",6); Nok
-		//getRecipes(i); ok mais il manque les cat�gories
-		//getRecipesByIngred(i); ok mais il manque les cat�gories
-		//getRecipesByCluster(5); ok mais il manque les cat�gories
-		//getIngreds(i); ok
-		//ratingIngred("sofiane", 2, 8); ok
-		//getRatingIngred("sofiane"); ok mais � v�rifier
-		//ratingCluster(String name, int id_cluster, int value) : � faire vite
-		//getRatingClusters(int id_user) : � redefinir vite
-
-		
-		// getUtensilByRecipId(10);
-		// getStepByIdRecip(498);
-		// for(int i=0; i<al.size();i++){
-		// System.out.println(al.get(i).title);
-		// }
-		//System.out.println(sl);
-
+		//createUser("a", "a", "a");
+        //ratingIngred("a", 4, 10);
+        //System.out.println(getRatingIngred("a"));
+        //ratingCluster("a", 1, 10);
 	}
 
 	public static ArrayList<Recipe> getRecipesByIngred(String... ingred) throws SQLException, JSONException {
@@ -180,7 +160,7 @@ public abstract class Neo4J implements java.sql.Connection {
 		}
 	}
 
-	public static ArrayList<Recipe> getRecipes(int[] idRecipe) throws SQLException, JSONException {
+	public static ArrayList<Recipe> getRecipes(int[] idRecipe) {
 
 		ArrayList<Recipe> al = new ArrayList<>();
 
@@ -193,7 +173,7 @@ public abstract class Neo4J implements java.sql.Connection {
 				java.sql.ResultSet rs = stmt.executeQuery(query);
 				while (rs.next()) {
 					String result = rs.getString(1);
-					System.out.println(result);
+					//System.out.println(result);
 					JSONObject json = new JSONObject(result);
 					Recipe recipe = new Recipe();
 					String title = json.getString("title");
@@ -233,11 +213,15 @@ public abstract class Neo4J implements java.sql.Connection {
 					al.add(recipe);
 				}
 			}
-		}
-		return al;
+		} catch (SQLException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return al;
 	}
 
-	public static int[] getRecipesByIngred(int[] idIngred) throws SQLException, JSONException {
+	public static int[] getRecipesByIngred(int[] idIngred) {
 
 		int[] recipes_id = {};
 		// Connect
@@ -271,15 +255,19 @@ public abstract class Neo4J implements java.sql.Connection {
 			java.sql.ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				String result = rs.getString(1);
-				System.out.println(result);
+				//System.out.println(result);
 				JSONObject json = new JSONObject(result);
 				int id = json.getInt("idRecipe");
 				recipes_id = Arrays.copyOf(recipes_id, recipes_id.length + 1);
 				recipes_id[recipes_id.length - 1] = id;
 
 			}
-		}
-		return recipes_id;
+		} catch (SQLException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return recipes_id;
 	}
 
 	public static int[] getRecipesByCluster(int cluster) throws SQLException, JSONException {
@@ -289,13 +277,13 @@ public abstract class Neo4J implements java.sql.Connection {
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
 		String query = "MATCH (r:Recipe{label:'"+cluster+"'}) return r";
-		System.out.println(query);
+		//System.out.println(query);
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
 			java.sql.ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				String result = rs.getString(1);
-				System.out.println(result);
+				//System.out.println(result);
 				JSONObject json = new JSONObject(result);
 				int id = json.getInt("idRecipe");
 				recipes_id = Arrays.copyOf(recipes_id, recipes_id.length + 1);
@@ -350,7 +338,7 @@ public abstract class Neo4J implements java.sql.Connection {
 		}
 	}
 
-	public static void ratingIngred(String name, int id_ingr, int value) throws SQLException {
+	public static void ratingIngred(String name, int id_ingr, int value)  {
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
@@ -361,56 +349,89 @@ public abstract class Neo4J implements java.sql.Connection {
 		try (java.sql.Statement stmt = conn.createStatement()) {
 				java.sql.ResultSet rs = stmt.executeQuery(query);
 
-		}
-	}
+		} catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-	public static HashMap<String, String> getRatingIngred(String name) throws SQLException {
+
+	public static HashMap<Integer, Integer> getRatingIngred(String name) {
 		
-	    HashMap<String,String> map = new HashMap<>();
+	    HashMap<Integer,Integer> map = new HashMap<>();
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
 		String query ="MATCH (user:User{nameUser:'"+name+"'})-[lri:LIKE]->(ingred:Ingredient) with ingred, lri.rateIngred as rateIngred\n" + 
 				"return ingred.idIngred,rateIngred";
-		System.out.println(query);
+
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
 				java.sql.ResultSet rs = stmt.executeQuery(query);
 				while (rs.next()) {
 					String idIngred = rs.getString(1);
 					String score = rs.getString(2);
-					map.put(idIngred,score);
-					System.out.println(map.toString());
+					map.put(Integer.parseInt(idIngred),Integer.parseInt(score));
 					}
-				}
-		return map;
+				} catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return map;
 	}
 
-	public void ratingCluster(String name, int id_cluster, int value) throws SQLException {
+	public static void ratingCluster(String name, int id_cluster, int value) throws SQLException {
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
-		String query ="";
+		String query ="MATCH (u:User{nameUser:'"+name+"'})\n" + 
+						"MATCH (c:Cluster{idCluster:'"+id_cluster+"'})\n" + 
+						"CREATE (u)-[:LIKE{rateCluster:"+value+"}]->(c)\n" + 
+						"";
+		// Querying
+		try (java.sql.Statement stmt = conn.createStatement()) {
+			java.sql.ResultSet rs = stmt.executeQuery(query);
+		} 
+	}
+
+	public static HashMap<String, String> getRatingClusters(String name) throws SQLException{
+		HashMap<String,String> map = new HashMap<>();
+		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
+		conn = sc.conn;
+		String query ="MATCH (user:User{nameUser:'"+name+"'})-[lri:LIKE]->(cluster:Cluster) with cluster, lri.rateCluster as rateCluster\n" + 
+				"return cluster.idCluster,rateCluster";
+		System.out.println(query);
+		// Querying
+		try (java.sql.Statement stmt = conn.createStatement()) {
+				java.sql.ResultSet rs = stmt.executeQuery(query);
+				while (rs.next()) {
+					String idCluster = rs.getString(1);
+					String score = rs.getString(2);
+					map.put(idCluster,score);
+					}
+				System.out.println(map.toString());
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		return map;
+	}
+	
+	public void calculEuclideanDistance(int id_user) throws SQLException{
+
+		  
+
+		
+		// Connect
+		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
+		conn = sc.conn;
+		String query ="MATCH (u1:user)-[x:LIKE]->(i:ingredient),"
+		 			+"(u2:user)-[y:LIKE]->(i)"
+		 			+"WHERE id(u1)<id(u2)"
+		 			+" WITH sqrt(sum((x.score-y.score)^2)) AS euc , u1, u2"
+		+" MERGE (u1)-[d:DISTANCE]->(u2)"
+		 +"SET d.euclidean=euc;";
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
 			java.sql.ResultSet rs = stmt.executeQuery(query);
 		}
-	}
-
-	public int[] getRatingClusters(int id_user) {
-
-		return null;
-	}
-	
-	public void calculEuclideanDistance(int id_user){
-		/*
-		 * MATCH (u1:user)-[x:LIKE]->(i:ingredient),
-		 * 			(u2:user)-[y:LIKE]->(i)
-		 * WHERE id(u1)<id(u2)
-		 * WITH sqrt(sum((x.score-y.score)^2)) AS euc , u1, u2
-		 * MERGE (u1)-[d:DISTANCE]->(u2)
-		 * SET d.euclidean=euc;
-		 * */
 	}
 	
 	
