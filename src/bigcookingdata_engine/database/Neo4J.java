@@ -1,5 +1,6 @@
 package bigcookingdata_engine.database;
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,9 +25,10 @@ public abstract class Neo4J implements java.sql.Connection {
 
 		int[] i = { 1};
 		//createUser("a", "a", "a");
-        //ratingIngred("a", 4, 10);
+        //ratingIngred("a", 2, 10);
         //System.out.println(getRatingIngred("a"));
-        //ratingCluster("a", 1, 10);
+        //ratingCluster("a", 3, 20);
+        System.out.println(getRatingClusters("a"));
 	}
 
 	public static ArrayList<Recipe> getRecipesByIngred(String... ingred) throws SQLException, JSONException {
@@ -270,7 +272,7 @@ public abstract class Neo4J implements java.sql.Connection {
         return recipes_id;
 	}
 
-	public static int[] getRecipesByCluster(int cluster) throws SQLException, JSONException {
+	public static int[] getRecipesByCluster(int cluster) {
 
 		int[] recipes_id = {};
 		// Connect
@@ -289,8 +291,12 @@ public abstract class Neo4J implements java.sql.Connection {
 				recipes_id = Arrays.copyOf(recipes_id, recipes_id.length + 1);
 				recipes_id[recipes_id.length - 1] = id;
 			}
-		}
-		return recipes_id;
+		} catch (SQLException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return recipes_id;
 	}
 
 	public static ArrayList<Ingredient> getIngreds(int[] idIngred) throws SQLException, JSONException {
@@ -392,26 +398,36 @@ public abstract class Neo4J implements java.sql.Connection {
 		} 
 	}
 
-	public static HashMap<String, String> getRatingClusters(String name) throws SQLException{
-		HashMap<String,String> map = new HashMap<>();
+	public static ArrayList<Integer> getRatingClusters(String name) {
+		ArrayList<Integer> list = new ArrayList<>();
+		HashMap<Integer, Integer> map = new HashMap<>();
+
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
 		String query ="MATCH (user:User{nameUser:'"+name+"'})-[lri:LIKE]->(cluster:Cluster) with cluster, lri.rateCluster as rateCluster\n" + 
 				"return cluster.idCluster,rateCluster";
-		System.out.println(query);
+		//System.out.println(query);
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
 				java.sql.ResultSet rs = stmt.executeQuery(query);
 				while (rs.next()) {
 					String idCluster = rs.getString(1);
 					String score = rs.getString(2);
-					map.put(idCluster,score);
+					map.put(Integer.parseInt(idCluster), Integer.parseInt(score));
 					}
-				System.out.println(map.toString());
+				//System.out.println(map.toString());
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-		return map;
+
+				for (int i = 0 ; i<30 ; i++){
+		            if (map.containsKey(i))
+		                list.add(map.get(i));
+		            else
+                        list.add(0);
+                }
+
+		return list;
 	}
 	
 	public void calculEuclideanDistance(int id_user) throws SQLException{
