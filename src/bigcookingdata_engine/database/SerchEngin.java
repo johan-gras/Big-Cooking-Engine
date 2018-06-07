@@ -1,9 +1,11 @@
 package bigcookingdata_engine.database;
 
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 
 import org.json.JSONObject;
 
+import bigcookingdata_engine.business.data.recipe.Ingredient;
 import bigcookingdata_engine.business.data.recipe.Recipe;
 
 /**
@@ -14,7 +16,7 @@ import bigcookingdata_engine.business.data.recipe.Recipe;
  */
 public class SerchEngin {
 
-	public  ArrayList<Recipe> getRecipe(String keyWord) {
+	public ArrayList<Recipe> getRecipe(String keyWord) {
 		java.sql.Connection conn = null;
 		ArrayList<Recipe> result = new ArrayList<>();
 
@@ -32,12 +34,13 @@ public class SerchEngin {
 				// System.out.println(r);
 				JSONObject json = new JSONObject(r);
 				Recipe recipe = new Recipe();
-				//.setCategorie((String) json.getString("categorie").replaceAll(",", "").replaceAll("[\\[\\]]", "")
-					//	.replaceAll("'", ""));
+				// .setCategorie((String) json.getString("categorie").replaceAll(",",
+				// "").replaceAll("[\\[\\]]", "")
+				// .replaceAll("'", ""));
 				recipe.setLevel(json.getInt("level"));
 				recipe.setNbOfPerson(json.getInt("number_of_person"));
 				recipe.setTimeCooking(json.getString("timecooking"));
-				//recipe.setRating((float) json.getDouble("rating"));
+				// recipe.setRating((float) json.getDouble("rating"));
 				recipe.setTimePrepa(json.getString("timeprepa"));
 				recipe.setTitle(json.getString("title"));
 				recipe.setIdRecipe(json.getInt("idRecipe"));
@@ -49,16 +52,13 @@ public class SerchEngin {
 		}
 		return result;
 	}
-/*
-	public static void main(String[] args) {
-		ArrayList<Recipe> r = new ArrayList<>();
-		r = getRecipe("fromage");
-		for (int i = 0; i < r.size(); i++) {
-			System.out.println(r.get(i).getTitle());
 
-		}
-		System.out.println(r.size());
+	
 
-	}
-*/
+	
+//	  public static void main(String[] args) {
+//		System.out.println(getIngeByName("chocolat").getId());
+//	  
+//	  }
+	 
 }
