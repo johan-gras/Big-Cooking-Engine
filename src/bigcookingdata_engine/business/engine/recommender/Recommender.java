@@ -21,7 +21,7 @@ public class Recommender {
         return recipes_perso;
     }
 
-    private void recommend(){
+    public void recommend(){
         // Weights
         HashMap<Integer, Integer> map = new HashMap<>();
         for (RecommenderCell cell : cells)
