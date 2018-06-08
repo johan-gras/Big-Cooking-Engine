@@ -53,7 +53,7 @@
 
                 <h2> Utilisateur nom</h2>
 
-                <a class="btn btn-primary" href="#" role="button">Ma selection de recettes</a>
+                <a class="btn btn-primary" href="ServletRecomendationRecipe" role="button">Ma selection de recettes</a>
 
             </div>
 
