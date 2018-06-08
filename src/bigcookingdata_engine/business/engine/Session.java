@@ -2,6 +2,7 @@ package bigcookingdata_engine.business.engine;
 
 import bigcookingdata_engine.business.data.user.User;
 import bigcookingdata_engine.business.engine.recommender.Recommender;
+import bigcookingdata_engine.database.Neo4J;
 
 public class Session {
     private static Session ourInstance = new Session();
@@ -16,7 +17,7 @@ public class Session {
     }
 
     public String connection(String user, String pwd){
-        User user_db = fake_db_connection(user, pwd);
+        User user_db = Neo4J.connection(user, pwd);
         if (user_db == null)
             return null;
 
@@ -39,7 +40,7 @@ public class Session {
         String userID = "aa@aa.aa";
         String password = "aa";
         if (user.equals(userID) && pwd.equals(password)){
-            User fake_user = new User(0, "Some", "body", "m", 120.);
+            User fake_user = new User(0, "a", "body", "m", 120.);
             return fake_user;
         }
         return null;
@@ -51,6 +52,10 @@ public class Session {
 
     public Searcher getSearcher() {
         return searcher;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public boolean isConnected(){

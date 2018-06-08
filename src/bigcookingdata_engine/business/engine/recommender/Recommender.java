@@ -1,6 +1,8 @@
 package bigcookingdata_engine.business.engine.recommender;
 
 import bigcookingdata_engine.business.data.recipe.Recipe;
+import bigcookingdata_engine.business.engine.Session;
+import bigcookingdata_engine.database.Neo4J;
 
 import java.util.*;
 
@@ -13,21 +15,13 @@ public class Recommender {
         cells.add(new RecommenderByIngred());
     }
 
-    private ArrayList<Recipe> fake_reco(){
-        ArrayList<Recipe> fake = new ArrayList<>();
-        for (int i=0 ; i<=2 ; i++){
-            fake.add(new Recipe());
-        }
-        return fake;
-    }
-
     public ArrayList<Recipe> getRecipes_recommended() {
         if (recipes_perso == null)
             recommend();
         return recipes_perso;
     }
 
-    public void recommend(){
+    private void recommend(){
         // Weights
         HashMap<Integer, Integer> map = new HashMap<>();
         for (RecommenderCell cell : cells)
@@ -51,10 +45,15 @@ public class Recommender {
                 id_recipes.add(id);
         }
         System.out.println(id_recipes);
+        recipes_perso = Neo4J.getRecipes(id_recipes.stream().mapToInt(i -> i).toArray());
     }
 
     public static void main(String[] args){
+        Session.getInstance().connection("aa@aa.aa", "a");
         Recommender reco = new Recommender();
         reco.recommend();
+        ArrayList<Recipe> li = new ArrayList<>();
+        li = reco.getRecipes_recommended();
+        System.out.println("NBRECETTES RECO::QND@"+li.size());
     }
 }
