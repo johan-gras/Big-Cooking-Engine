@@ -49,7 +49,7 @@ public class Recommender {
     }
 
     public static void main(String[] args){
-        Session.getInstance().connection("aa@aa.aa", "aa");
+        Session.getInstance().connection("aa@aa.aa", "a");
         Recommender reco = new Recommender();
         reco.recommend();
         ArrayList<Recipe> li = new ArrayList<>();
