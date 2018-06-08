@@ -29,7 +29,7 @@ public abstract class Neo4J implements java.sql.Connection {
 		//getSteps(10); ok
 		//getUtensil(5); ok
 		//createUser("sofiane","hami","70"); ok
-		//userLike("sofiane","hami","rhubarbes",6); Nok
+		//userLike("sofiane","hami","rhubarbes",6); ok
 		//getRecipes(i); ok mais il manque les cat�gories
 		//getRecipesByIngred(i); ok mais il manque les cat�gories
 		//getRecipesByCluster(5); ok mais il manque les cat�gories
