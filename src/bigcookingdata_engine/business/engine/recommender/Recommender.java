@@ -52,5 +52,8 @@ public class Recommender {
         Session.getInstance().connection("aa@aa.aa", "aa");
         Recommender reco = new Recommender();
         reco.recommend();
+        ArrayList<Recipe> li = new ArrayList<>();
+        li = reco.getRecipes_recommended();
+        System.out.println("NBRECETTES RECO::QND@"+li.size());
     }
 }
