@@ -6,6 +6,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
     <link rel="stylesheet" type="text/css" href="CSS/style_log.css">
+    <link rel="stylesheet" type="text/css"
+	href="<c:url value='/CSS/style.css' />">
 </head>
 
 <body>
