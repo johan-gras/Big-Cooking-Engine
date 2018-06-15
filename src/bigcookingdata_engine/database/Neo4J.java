@@ -20,7 +20,16 @@ public abstract class Neo4J implements java.sql.Connection {
 	private static java.sql.Connection conn = null;
 
 	public static void main(String[] args) throws Exception {
-		getSteps(22);
+		ArrayList<Recipe> al = new ArrayList<>();
+		ArrayList<Utensil> sl = new ArrayList<>();
+
+		int[] i = { 1};
+		//createUser("aissam", "aissam@a.com", "aaa");
+		//createUser("maxence", "maxence@a.com", "aaa");
+		//userLike("aissam", "aissam@a.com", "carottes", 6);
+
+		//System.out.println(connection("a", "a"));
+		//getSteps(22);
 		// createUser("aa@aa.aa", "", "a");
 		// System.out.println(connection("a", "a"));
 	}
@@ -195,9 +204,9 @@ public abstract class Neo4J implements java.sql.Connection {
 		return user;
 	}
 
-	public static void userLike(String name, String surname, String ingredient, int score) throws SQLException {
+        public static void userLike(String name, String mail, String ingredient, int score) throws SQLException {
 		String query = "MATCH (a:User),(b:Ingredient{nameIngred:'" + ingredient + "'})" + "WHERE a.nameUser = '" + name
-				+ "' AND a.surname='" + surname + "'" + "CREATE (a)-[r:LIKE{score:'" + score + "'}]->(b);";
+				+ "' AND a.mail='" + mail + "'" + "CREATE (a)-[r:LIKE{score:'" + score + "'}]->(b);";
 		System.out.println(query);
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
@@ -489,9 +498,13 @@ public abstract class Neo4J implements java.sql.Connection {
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
-		String query = "MATCH (u1:user)-[x:LIKE]->(i:ingredient)," + "(u2:user)-[y:LIKE]->(i)" + "WHERE id(u1)<id(u2)"
-				+ " WITH sqrt(sum((x.score-y.score)^2)) AS euc , u1, u2" + " MERGE (u1)-[d:DISTANCE]->(u2)"
-				+ "SET d.euclidean=euc;";
+		String query ="MATCH (u1:User)-[x:LIKE]->(i:Ingredient),"
+		 			+"(u2:User)-[y:LIKE]->(i)"
+		 			+"WHERE id(u1)<id(u2)"
+		 			+" WITH sqrt(sum((toInt(x.score)-toInt(y.score))^2)) AS euc , u1, u2"
+		+" MERGE (u1)-[d:DISTANCE]->(u2)"
+		 +"SET d.euclidean=euc;";
+
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
 			java.sql.ResultSet rs = stmt.executeQuery(query);
