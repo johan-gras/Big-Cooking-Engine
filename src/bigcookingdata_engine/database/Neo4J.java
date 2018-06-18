@@ -23,37 +23,37 @@ public abstract class Neo4J implements java.sql.Connection {
 	public static void main(String[] args) throws Exception {
 		ArrayList<Recipe> al = new ArrayList<>();
 		ArrayList<Utensil> sl = new ArrayList<>();
-		System.out.println("TOP3" + Neo4J.getIngredByTop3("aa@aa.aa"));
+		//System.out.println("TOP3" + Neo4J.getIngredByTop3("aa@aa.aa"));
 
 		// ICI VOUS POUVEZ METTRE COMBIEN VOUS VOULEZ D INGREDIENT
-		//getRecipesByIngred("pommes","bananes");
-		//getSteps(10); ok
-		//getUtensil(5); ok
-		//createUser("sofiane","hami","70"); ok
-		//userLike("sofiane","hami","rhubarbes",6); ok
-		//getRecipes(i); ok mais il manque les cat�gories
-		//getRecipesByIngred(i); ok mais il manque les cat�gories
-		//getRecipesByCluster(5); ok mais il manque les cat�gories
-		//getIngreds(i); ok
-		//ratingIngred("sofiane", 2, 8); ok
-		//getRatingIngred("sofiane"); //ok 
-		//ratingCluster(String name, int id_cluster, int value) : ok
-		//getRatingClusters("sofiane"); //: ok
+		// getRecipesByIngred("pommes","bananes");
+		// getSteps(10); ok
+		// getUtensil(5); ok
+		// createUser("sofiane","hami","70"); ok
+		// userLike("sofiane","hami","rhubarbes",6); ok
+		// getRecipes(i); ok mais il manque les cat�gories
+		// getRecipesByIngred(i); ok mais il manque les cat�gories
+		// getRecipesByCluster(5); ok mais il manque les cat�gories
+		// getIngreds(i); ok
+		// ratingIngred("sofiane", 2, 8); ok
+		// getRatingIngred("sofiane"); //ok
+		// ratingCluster(String name, int id_cluster, int value) : ok
+		// getRatingClusters("sofiane"); //: ok
 
 		// getUtensilByRecipId(10);
 		// getStepByIdRecip(498);
 		// for(int i=0; i<al.size();i++){
 		// System.out.println(al.get(i).title);
 		// }
-		//System.out.println(sl);
+		// System.out.println(sl);
 
-		int[] i = { 1};
-		//createUser("aa@aa.aa", "", "a");
-		//System.out.println(connection("a", "a"));
-		getSteps(22);
-		//createUser("aissam", "aissam@a.com", "aaa");
-		//createUser("maxence", "maxence@a.com", "aaa");
-		//userLike("aissam", "aissam@a.com", "carottes", 6);
+		int[] i = { 1 };
+		// createUser("aa@aa.aa", "", "a");
+		// System.out.println(connection("a", "a"));
+		//getSteps(22);
+		// createUser("aissam", "aissam@a.com", "aaa");
+		// createUser("maxence", "maxence@a.com", "aaa");
+		// userLike("aissam", "aissam@a.com", "carottes", 6);
 		// createUser("aissam", "aissam@a.com", "aaa");
 		// createUser("maxence", "maxence@a.com", "aaa");
 		// userLike("aissam", "aissam@a.com", "carottes", 6);
@@ -61,6 +61,7 @@ public abstract class Neo4J implements java.sql.Connection {
 		// getSteps(22);
 		// createUser("aa@aa.aa", "", "a");
 		// System.out.println(connection("a", "a"));
+		getRandomIngred();
 	}
 
 	public static ArrayList<Recipe> getRecipesByIngred(String... ingred) throws SQLException, JSONException {
@@ -438,7 +439,7 @@ public abstract class Neo4J implements java.sql.Connection {
 	}
 
 	public static void ratingIngred(String name, int id_ingr, int value) {
-		// Connection 
+		// Connection
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
 		String query = "MATCH (user:User{nameUser:'" + name + "'}), (ingred:Ingredient{idIngred:'" + id_ingr
@@ -467,7 +468,7 @@ public abstract class Neo4J implements java.sql.Connection {
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
 			java.sql.ResultSet rs = stmt.executeQuery(query);
-			if (rs== null)
+			if (rs == null)
 				System.out.println("RS NULL");
 			while (rs.next()) {
 				String idIngred = rs.getString(1);
@@ -479,7 +480,7 @@ public abstract class Neo4J implements java.sql.Connection {
 		}
 		return map;
 	}
-	
+
 	public static ArrayList<TopIngred> getIngredByTop3(String name) {
 
 		HashMap<String, Integer> map = new HashMap<>();
@@ -493,7 +494,7 @@ public abstract class Neo4J implements java.sql.Connection {
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
 			java.sql.ResultSet rs = stmt.executeQuery(query);
-			if (rs== null)
+			if (rs == null)
 				System.out.println("RS NULL");
 			while (rs.next()) {
 				TopIngred top = new TopIngred();
@@ -502,7 +503,7 @@ public abstract class Neo4J implements java.sql.Connection {
 				top.setNamIng(nameIngred);
 				top.setRating(score);
 				TopList.add(top);
-				//map.put(nameIngred, Integer.parseInt(score));
+				// map.put(nameIngred, Integer.parseInt(score));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -604,6 +605,29 @@ public abstract class Neo4J implements java.sql.Connection {
 		}
 
 		return i;
+	}
+
+	public static Ingredient getRandomIngred() throws SQLException {
+
+		Ingredient ing=new Ingredient();
+		// Connect
+		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
+		conn = sc.conn;
+		String query = "MATCH (i:Ingredient),(u:User)-[l:LIKE]-(i1:Ingredient)" + "WITH i,rand() AS rand, i1 "
+				+ "ORDER BY rand WHERE i <> i1 AND NOT i.photoIngred CONTAINS 'unique' return i LIMIT 1";
+
+		try (java.sql.Statement stmt = conn.createStatement()) {
+			java.sql.ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				System.out.println(rs.getString(2));
+			}
+			// System.out.println(map.toString());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+		
 	}
 
 }
