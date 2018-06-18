@@ -607,25 +607,29 @@ public abstract class Neo4J implements java.sql.Connection {
 		return i;
 	}
 
-	public static Ingredient getRandomIngred() throws SQLException {
+	public static Ingredient getRandomIngred() throws SQLException, JSONException {
 
-		Ingredient ing=new Ingredient();
+		Ingredient i=new Ingredient();
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
 		String query = "MATCH (i:Ingredient),(u:User)-[l:LIKE]-(i1:Ingredient)" + "WITH i,rand() AS rand, i1 "
 				+ "ORDER BY rand WHERE i <> i1 AND NOT i.photoIngred CONTAINS 'unique' return i LIMIT 1";
-
+		String r = null;
 		try (java.sql.Statement stmt = conn.createStatement()) {
 			java.sql.ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				System.out.println(rs.getString(2));
+				r= rs.getString(1);
+				JSONObject json = new JSONObject(r);
+				i.setId(Integer.parseInt(json.getString("idIngred")));
+				i.setName(json.getString("nameIngred"));
+				i.setPhoto(json.getString("photoIngred"));
 			}
 			// System.out.println(map.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return i;
 		
 		
 	}

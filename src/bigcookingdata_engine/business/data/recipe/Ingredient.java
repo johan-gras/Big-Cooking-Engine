@@ -6,6 +6,7 @@ public class Ingredient {
     private String prefix = null;
     private String name = null;
     private int quantity = -1;
+    private String photo = null;
     
 
     public Ingredient(){
@@ -18,6 +19,7 @@ public class Ingredient {
         this.prefix = prefix;
         this.name = name;
         this.quantity = quantity;
+   
     }
 
     public int getId() {
@@ -59,4 +61,14 @@ public class Ingredient {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+    
+    
 }
