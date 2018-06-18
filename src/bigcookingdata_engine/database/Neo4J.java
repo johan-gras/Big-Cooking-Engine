@@ -13,6 +13,7 @@ import org.parboiled.common.ImmutableList;
 import bigcookingdata_engine.business.data.recipe.Ingredient;
 import bigcookingdata_engine.business.data.recipe.Recipe;
 import bigcookingdata_engine.business.data.recipe.Step;
+import bigcookingdata_engine.business.data.recipe.TopIngred;
 import bigcookingdata_engine.business.data.recipe.Utensil;
 
 public abstract class Neo4J implements java.sql.Connection {
@@ -22,6 +23,7 @@ public abstract class Neo4J implements java.sql.Connection {
 	public static void main(String[] args) throws Exception {
 		ArrayList<Recipe> al = new ArrayList<>();
 		ArrayList<Utensil> sl = new ArrayList<>();
+		System.out.println("TOP3" + Neo4J.getIngredByTop3("aa@aa.aa"));
 
 		// ICI VOUS POUVEZ METTRE COMBIEN VOUS VOULEZ D INGREDIENT
 		//getRecipesByIngred("pommes","bananes");
@@ -52,9 +54,11 @@ public abstract class Neo4J implements java.sql.Connection {
 		//createUser("aissam", "aissam@a.com", "aaa");
 		//createUser("maxence", "maxence@a.com", "aaa");
 		//userLike("aissam", "aissam@a.com", "carottes", 6);
-
-		//System.out.println(connection("a", "a"));
-		//getSteps(22);
+		// createUser("aissam", "aissam@a.com", "aaa");
+		// createUser("maxence", "maxence@a.com", "aaa");
+		// userLike("aissam", "aissam@a.com", "carottes", 6);
+		// System.out.println(connection("a", "a"));
+		// getSteps(22);
 		// createUser("aa@aa.aa", "", "a");
 		// System.out.println(connection("a", "a"));
 	}
@@ -117,11 +121,11 @@ public abstract class Neo4J implements java.sql.Connection {
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
-		String query = "match (s:Step)-[:IS_STEP]->(:Recipe{idRecipe:'"+idRecip+"'}) return s";
+		String query = "match (s:Step)-[:IS_STEP]->(:Recipe{idRecipe:'" + idRecip + "'}) return s";
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
 			java.sql.ResultSet rs = stmt.executeQuery(query);
-			//System.out.println(query);
+			// System.out.println(query);
 			while (rs.next()) {
 				Step step = new Step();
 				String result = rs.getString(1);
@@ -130,14 +134,15 @@ public abstract class Neo4J implements java.sql.Connection {
 				step.setNumberStep(json.getInt("numberStep"));
 				step.setDescStep(json.getString("detailStep"));
 				stepList.add(step);
-				//System.out.println(json.getString("detailStep"));
+				// System.out.println(json.getString("detailStep"));
 			}
 		}
 		return stepList;
 	}
 
 	/**
-	 * 	récupération des ingrédiant By Id Recette
+	 * récupération des ingrédiant By Id Recette
+	 * 
 	 * @paraescStepm idRecip
 	 * @return
 	 * @throws SQLException
@@ -229,7 +234,7 @@ public abstract class Neo4J implements java.sql.Connection {
 		return user;
 	}
 
-        public static void userLike(String name, String mail, String ingredient, int score) throws SQLException {
+	public static void userLike(String name, String mail, String ingredient, int score) throws SQLException {
 		String query = "MATCH (a:User),(b:Ingredient{nameIngred:'" + ingredient + "'})" + "WHERE a.nameUser = '" + name
 				+ "' AND a.mail='" + mail + "'" + "CREATE (a)-[r:LIKE{score:'" + score + "'}]->(b);";
 		System.out.println(query);
@@ -433,7 +438,7 @@ public abstract class Neo4J implements java.sql.Connection {
 	}
 
 	public static void ratingIngred(String name, int id_ingr, int value) {
-		// Connect
+		// Connection 
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
 		String query = "MATCH (user:User{nameUser:'" + name + "'}), (ingred:Ingredient{idIngred:'" + id_ingr
@@ -462,6 +467,8 @@ public abstract class Neo4J implements java.sql.Connection {
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
 			java.sql.ResultSet rs = stmt.executeQuery(query);
+			if (rs== null)
+				System.out.println("RS NULL");
 			while (rs.next()) {
 				String idIngred = rs.getString(1);
 				String score = rs.getString(2);
@@ -471,6 +478,36 @@ public abstract class Neo4J implements java.sql.Connection {
 			e.printStackTrace();
 		}
 		return map;
+	}
+	
+	public static ArrayList<TopIngred> getIngredByTop3(String name) {
+
+		HashMap<String, Integer> map = new HashMap<>();
+		// Connect
+		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
+		conn = sc.conn;
+		String query = "MATCH (user:User{nameUser:'" + name
+				+ "'})-[lri:LIKE]->(ingred:Ingredient) with ingred, lri.rateIngred as rateIngred\n"
+				+ "return DISTINCT ingred.nameIngred,rateIngred ORDER BY rateIngred limit 3";
+		ArrayList<TopIngred> TopList = new ArrayList<>();
+		// Querying
+		try (java.sql.Statement stmt = conn.createStatement()) {
+			java.sql.ResultSet rs = stmt.executeQuery(query);
+			if (rs== null)
+				System.out.println("RS NULL");
+			while (rs.next()) {
+				TopIngred top = new TopIngred();
+				String nameIngred = rs.getString(1);
+				String score = rs.getString(2);
+				top.setNamIng(nameIngred);
+				top.setRating(score);
+				TopList.add(top);
+				//map.put(nameIngred, Integer.parseInt(score));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return TopList;
 	}
 
 	public static void ratingCluster(String name, int id_cluster, int value) throws SQLException {
@@ -523,12 +560,9 @@ public abstract class Neo4J implements java.sql.Connection {
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
-		String query ="MATCH (u1:User)-[x:LIKE]->(i:Ingredient),"
-		 			+"(u2:User)-[y:LIKE]->(i)"
-		 			+"WHERE id(u1)<id(u2)"
-		 			+" WITH sqrt(sum((toInt(x.score)-toInt(y.score))^2)) AS euc , u1, u2"
-		+" MERGE (u1)-[d:DISTANCE]->(u2)"
-		 +"SET d.euclidean=euc;";
+		String query = "MATCH (u1:User)-[x:LIKE]->(i:Ingredient)," + "(u2:User)-[y:LIKE]->(i)" + "WHERE id(u1)<id(u2)"
+				+ " WITH sqrt(sum((toInt(x.score)-toInt(y.score))^2)) AS euc , u1, u2"
+				+ " MERGE (u1)-[d:DISTANCE]->(u2)" + "SET d.euclidean=euc;";
 
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
@@ -571,7 +605,5 @@ public abstract class Neo4J implements java.sql.Connection {
 
 		return i;
 	}
-	
-	
-	
+
 }

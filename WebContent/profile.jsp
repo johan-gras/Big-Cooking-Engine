@@ -25,38 +25,31 @@
 <style>
 </style>
 
-<body style = "color: white">
-	<br>
+<body>
 	<br>
 	<c:import url="navBar.jsp"></c:import>
 
 
 	<div class="container-fluid">
 
-		<div class="row">
+		<div class="col d-block mx-auto"
+			style="background-color: white; width: 50%;">
 
-			<div class="col-md-4">
+			<b>Infos presonnelles</b>
+			<ul>
+				<li><b>Nom: </b>John</li>
+				<li><b>Prénom: </b>Kenny</li>
+				<li><b>Date de Naissance: </b>18/11/1988</li>
+			</ul>
 
-				<img src="http://via.placeholder.com/350x250" />
-
-				<h2>Utilisateur nom</h2>
-
-				<a class="btn btn-primary" href="ServletRecomendationRecipe"
-					role="button">Ma selection de recettes</a>
-
-			</div>
-
-			<div class="col-md-8">
-
-				<b>Infos presonnelles</b>
-				<ul>
-					<li><b>Nom: </b>John</li>
-					<li><b>Prénom: </b>Kenny</li>
-					<li><b>Date de Naissance: </b>18/11/1988</li>
-				</ul>
-
-			</div>
 		</div>
+	</div>
+
+	<div class="col">
+
+		<a class="btn btn-primary btn-lg btn-block d-block mx-auto"
+			href="ServletRecomendationRecipe" role="button" style="width: 50%;">Recommander
+			3 recettes</a>
 
 	</div>
 

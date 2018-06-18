@@ -16,6 +16,7 @@
 <body>
 
 	<c:import url="navBar.jsp"></c:import>
-
+	
+	
 </body>
 </html>

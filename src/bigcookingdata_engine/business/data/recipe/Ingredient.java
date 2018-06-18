@@ -6,6 +6,7 @@ public class Ingredient {
     private String prefix = null;
     private String name = null;
     private int quantity = -1;
+    
 
     public Ingredient(){
 

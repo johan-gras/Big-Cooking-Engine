@@ -45,13 +45,13 @@ public class ServletRecomendationRecipe extends HttpServlet {
 		
 		li = reco.getRecipes_recommended();
 
-		System.out.println("nb Recettes recommendÃ© " + li.size());
+		System.out.println("nb Recettes recommendées: " + li.size());
 		System.out.println("nb taille stpe" + li.get(1).getIngredients().size());
 		
 		
 		request.setAttribute("rec", li);
 
-		request.getRequestDispatcher("RecommendedRcipe.jsp").forward(request, response);
+		request.getRequestDispatcher("index.jsp").forward(request, response);
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class ServletRecomendationRecipe extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		request.getRequestDispatcher("RecommendedRcipe.jsp").forward(request, response);
+		request.getRequestDispatcher("index.jsp").forward(request, response);
 		doGet(request, response);
 	}
 

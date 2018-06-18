@@ -23,61 +23,80 @@
 	<c:import url="navBar.jsp"></c:import>
 	<br>
 
-	<!-- Trigger the modal with a button -->
-	<button type="button" class="btn btn-info btn-lg" data-toggle="modal"
-		data-target="#myModal">une recette</button>
+		<div class="container">
+		<div class="row">
+			<c:forEach items="${rec}" var="recipe">
+				<div class="col" style="width: 5%">
+					<div id="${recipe.idRecipe}" class="modal fade" role="dialog">
+						<div class="modal-dialog">
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title">${recette.title}</h4>
+								</div>
+								<div class="modal-body">
+									<br>
+									<p>
+										<b>Les ingrédients :</b>
+									</p>
+									<ul>
+										<c:forEach items="${recipe.ingredients }" var="ing">
+											<li>${ing.name}</li>
+										</c:forEach>
+									</ul>
 
-	<!-- Barre de recherche -->
-	<form action="ServletSearch" name="search" method="post">
-		<input type="text" id="searchBar" name="searchWord"
-			placeholder="mot clé"> <input type="submit" value="Chercher">
-	</form>
-	<!-- Modal -->
-	<div id="myModal" class="modal fade" role="dialog">
-		<div class="modal-dialog">
+									<br>
+									<p>
+										<b>Les étapes :</b>
+									</p>
+									<ul>
+										<c:forEach items="${recipe.steps }" var="step">
+											<li><b>${step.numberStep}</b>${step.descStep}</li>
+										</c:forEach>
+									</ul>
+									<br>
+									<p>
+										<b>Les Ustensils :</b>
+									</p>
+									<ul>
+										<c:forEach items="${recipe.utensils }" var="utensil">
+											<li>${utensil.nameUtensil}</li>
+										</c:forEach>
+									</ul>
 
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">${recette.title}</h4>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default"
+										data-dismiss="modal">Close</button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="container">
+						<p>Catégorie : ${recipe.categorie}</p>
+						<div class="card" style="width: 400px">
+							<div class="row">
+								<div class="card-body">
+									<h4 class="card-title">${recipe.title}</h4>
+									<p class="card-text">
+										Budget: <b>${recipe.budget}</b> Temps de préparation: <b>${recipe.timePrepa}</b>
+									</p>
+									<p class="card-text">
+										Note: <b>${recipe.rating}</b>
+									</p>
+									<button type="button" class="btn btn-info btn-lg"
+										data-toggle="modal" data-target="#${recipe.idRecipe}">Détails</button>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="modal-body">
-					<hr>
-					<b>Temps : </b>${recette.timeTotal }, <b>Catégorie: </b>${recette.categorie },
-					<b>Level: </b>${recette.level }, <b>Nombre de personne: </b>${recette.nbOfPerson },
-					<b>Temps de cuisson: </b>${recette.timeCooking },
-					<hr>
-					<br>
-					<p>
-						<b>Les ingrédients :</b>
-					</p>
-					<ul>
-						<li>ingrédient 1</li>
-						<li>ingréient 2</li>
-						<li>ingrédient 3</li>
-						<li>ingrédient 4</li>
-					</ul>
-
-					<br>
-					<p>
-						<b>Les étapes :</b>
-					</p>
-					<ul>
-						<li>étapes 1</li>
-						<li>étapes 2</li>
-						<li>étapes 3</li>
-						<li>étapes 4</li>
-					</ul>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-
+			</c:forEach>
 		</div>
 	</div>
-
 
 
 </body>

@@ -77,8 +77,7 @@
 
 			<p>Catégorie : ${recipe.categorie}</p>
 			<div class="card" style="width: 400px">
-				<img class="card-img-top" src="img/g-gif-update.php.gif"
-					alt="Card image" style="width: 100%">
+				
 				<div class="card-body">
 					<h4 class="card-title">${recipe.title}</h4>
 					<p class="card-text">
@@ -88,8 +87,7 @@
 						Note: <b>${recipe.rating}</b>
 					</p>
 					<button type="button" class="btn btn-info btn-lg"
-						data-toggle="modal" data-target="#${recipe.idRecipe}">une
-						recette</button>
+						data-toggle="modal" data-target="#${recipe.idRecipe}">Détails</button>
 				</div>
 			</div>
 		</div>
