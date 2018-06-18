@@ -15,24 +15,7 @@
 </head> 
 <body>
 
-<nav class="navbar navbar-expand-sm bg-light">
-  <!-- Links -->
-  <ul class="navbar-nav">
-    
-    <li class="nav-item">
-      <a class="nav-link" href="index.jsp">Home</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="profile.jsp">Mon profile</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="SuggestionIng.jsp">Suggestion d'ingrédients</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="RecommendedRcipe.jsp">Mes recommendations</a>
-    </li>
-  </ul>
-</nav>
+	<c:import url="navBar.jsp"></c:import>
 
 </body>
 </html>
