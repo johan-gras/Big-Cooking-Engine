@@ -26,23 +26,23 @@
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
 <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
-<script src="http://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
+<script
+	src="http://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
-$().ready(function() {
-	  $("#inscription_form").validate(
-	  {
-	 rules : {
-         first_name : {
-             required : true
-         }
-     },
-          messages : {
-              first_name : "Veuillez fornir votre nom",
-          }
-	  });
+	$().ready(function() {
+		$("#inscription_form").validate({
+			rules : {
+				first_name : {
+					required : true
+				}
+			},
+			messages : {
+				first_name : "Veuillez fornir votre nom",
+			}
+		});
 	});
 </script>
-		
+
 </head>
 <body>
 	<div class="container">
@@ -64,13 +64,14 @@ $().ready(function() {
 				<!-- Text input-->
 
 				<div class="form-group">
-					<label class="col-md-4 control-label">First Name</label>
+					<label class="col-md-4 control-label">Nom</label>
 					<div class="col-md-4 inputGroupContainer">
 						<div class="input-group">
 							<span class="input-group-addon"><i
 								class="glyphicon glyphicon-user"></i></span> <input name="first_name"
-								placeholder="First Name" class="form-control" type="text" aria-required="true" aria-invalid="false">
-                            <label id="first_name-error" class="error" for="first_name"></label>
+								placeholder="First Name" class="form-control" type="text"
+								aria-required="true" aria-invalid="false"> <label
+								id="first_name-error" class="error" for="Nom"></label>
 						</div>
 					</div>
 				</div>
@@ -78,42 +79,21 @@ $().ready(function() {
 				<!-- Text input-->
 
 				<div class="form-group">
-					<label class="col-md-4 control-label">Last Name</label>
+					<label class="col-md-4 control-label">Prénom</label>
 					<div class="col-md-4 inputGroupContainer">
 						<div class="input-group">
 							<span class="input-group-addon"><i
 								class="glyphicon glyphicon-user"></i></span> <input name="last_name"
-								placeholder="Last Name" class="form-control" type="text">
+								placeholder="Prénom" class="form-control" type="text">
 						</div>
 					</div>
 				</div>
-
-				<div class="form-group">
-					<label class="col-md-4 control-label">Department / Office</label>
-					<div class="col-md-4 selectContainer">
-						<div class="input-group">
-							<span class="input-group-addon"><i
-								class="glyphicon glyphicon-list"></i></span> <select name="department"
-								class="form-control selectpicker">
-								<option value="">Select your Department/Office</option>
-								<option>Department of Engineering</option>
-								<option>Department of Agriculture</option>
-								<option>Accounting Office</option>
-								<option>Tresurer's Office</option>
-								<option>MPDC</option>
-								<option>MCTC</option>
-								<option>MCR</option>
-								<option>Mayor's Office</option>
-								<option>Tourism Office</option>
-							</select>
-						</div>
-					</div>
-				</div>
+				
 
 				<!-- Text input-->
 
 				<div class="form-group">
-					<label class="col-md-4 control-label">Username</label>
+					<label class="col-md-4 control-label">Nom d'Utilisateur</label>
 					<div class="col-md-4 inputGroupContainer">
 						<div class="input-group">
 							<span class="input-group-addon"><i
@@ -126,13 +106,13 @@ $().ready(function() {
 				<!-- Text input-->
 
 				<div class="form-group">
-					<label class="col-md-4 control-label">Password</label>
+					<label class="col-md-4 control-label">Mot de passe</label>
 					<div class="col-md-4 inputGroupContainer">
 						<div class="input-group">
 							<span class="input-group-addon"><i
 								class="glyphicon glyphicon-user"></i></span> <input
-								name="user_password" placeholder="Password" class="form-control"
-								type="password">
+								name="user_password" placeholder="Mot de passe"
+								class="form-control" type="password">
 						</div>
 					</div>
 				</div>
@@ -140,13 +120,15 @@ $().ready(function() {
 				<!-- Text input-->
 
 				<div class="form-group">
-					<label class="col-md-4 control-label">Confirm Password</label>
+					<label class="col-md-4 control-label">Confirmation du mot
+						de passe</label>
 					<div class="col-md-4 inputGroupContainer">
 						<div class="input-group">
 							<span class="input-group-addon"><i
 								class="glyphicon glyphicon-user"></i></span> <input
-								name="confirm_password" placeholder="Confirm Password"
-								class="form-control" type="password">
+								name="confirm_password"
+								placeholder="Confirmation du mot de passe" class="form-control"
+								type="password">
 						</div>
 					</div>
 				</div>
@@ -167,12 +149,12 @@ $().ready(function() {
 				<!-- Text input-->
 
 				<div class="form-group">
-					<label class="col-md-4 control-label">Contact No.</label>
+					<label class="col-md-4 control-label">Votre Poid</label>
 					<div class="col-md-4 inputGroupContainer">
 						<div class="input-group">
 							<span class="input-group-addon"><i
 								class="glyphicon glyphicon-earphone"></i></span> <input
-								name="contact_no" placeholder="(639)" class="form-control"
+								name="poid" placeholder="Poid" class="form-control"
 								type="text">
 						</div>
 					</div>
@@ -191,8 +173,7 @@ $().ready(function() {
 					<div class="col-md-4">
 						<br>
 						<button type="submit" class="btn btn-warning">
-							 <span
-								class="glyphicon glyphicon-send"></span>
+							<span class="glyphicon glyphicon-send"></span>
 						</button>
 					</div>
 				</div>
@@ -201,11 +182,11 @@ $().ready(function() {
 		</form>
 	</div>
 	</div>
-    
+
 	<!-- /.container -->
 </body>
 
-    </html>
+</html>
 
 
 

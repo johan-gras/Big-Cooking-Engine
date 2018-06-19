@@ -37,7 +37,7 @@
 
 			<b>Infos presonnelles</b>
 			<ul>
-				<li><b>Nom: </b>John</li>
+				<li><b>Nom: </b>${user}</li>
 				<li><b>Prénom: </b>Kenny</li>
 				<li><b>Date de Naissance: </b>18/11/1988</li>
 			</ul>

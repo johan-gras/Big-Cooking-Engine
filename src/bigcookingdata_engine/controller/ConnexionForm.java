@@ -1,6 +1,7 @@
 package bigcookingdata_engine.controller;
 
 import bigcookingdata_engine.business.engine.Session;
+import bigcookingdata_engine.database.Neo4J;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,15 +29,17 @@ public class ConnexionForm extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
-        Session session = Session.getInstance();
-        String name = session.connection(request.getParameter("user"), request.getParameter("pwd"));
-
-        if (name != null){
+		String user = request.getParameter("user");
+		String pwd = request.getParameter("pwd");
+		String name = Session.getInstance().connection( user,pwd );
+        
+        if (name != null && Neo4J.connection(user, pwd)!=null){
             Cookie loginCookie = new Cookie("user",name);
             loginCookie.setMaxAge(30*60);
             response.addCookie(loginCookie);
-            response.sendRedirect("Index");
+            request.setAttribute("user", user);
+    		request.getRequestDispatcher("profile.jsp").forward(request, response);
+           // response.sendRedirect("profile.jsp");
         }
         else {
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.jsp");

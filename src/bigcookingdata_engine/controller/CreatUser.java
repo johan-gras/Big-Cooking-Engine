@@ -10,19 +10,31 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/CreatUser")
 public class CreatUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-   
-    public CreatUser() {
-        super();
-    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("CreateUser.jsp").forward(request, response);
-
-	
+	public CreatUser() {
+		super();
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		request.getRequestDispatcher("CreateUser.jsp").forward(request, response);
+
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String name = request.getParameter("first_name");
+		String prenom = request.getParameter("last_name");
+		String user_name = request.getParameter("user_name");
+		String pass = request.getParameter("user_password");
+		String poid = request.getParameter("poid");
+		String email = request.getParameter("email");
+		
+		System.out.println(name + prenom + user_name + pass + poid + email );
+		request.getRequestDispatcher("CreateUser.jsp").forward(request, response);
+
 	}
 
 }
