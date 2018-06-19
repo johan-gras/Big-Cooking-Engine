@@ -20,30 +20,37 @@ import bigcookingdata_engine.database.Neo4J;
 @WebServlet("/ServeltRateIngred")
 public class ServeltRateIngred extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		String rate = request.getParameter("param");
 		System.out.println(rate);
-	    Ingredient i = new Ingredient();
+		Ingredient i = new Ingredient();
+//		if (rate=="null"||rate == null) {
+//		//int r = Integer.parseInt(rate);
+//		System.out.println("premier rate "+r);
+//		}
 		try {
+
 			i = Neo4J.getRandomIngred();
 			System.out.println(i.getName());
 			System.out.println(i.getPhoto());
-
 			request.setAttribute("ingred", i);
+
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher("SuggestionIng.jsp").forward(request, response);
 		
+		//	Neo4J.ratingIngred("aa@aa.aa", i.getId(), r);
+		request.getRequestDispatcher("SuggestionIng.jsp").forward(request, response);
+
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String rate = request.getParameter("param");
 		System.out.println(rate);
 		request.getRequestDispatcher("SuggestionIng.jsp").forward(request, response);
