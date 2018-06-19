@@ -37,14 +37,25 @@ public class ConnexionForm extends HttpServlet {
             Cookie loginCookie = new Cookie("user",name);
             loginCookie.setMaxAge(30*60);
             response.addCookie(loginCookie);
-            request.setAttribute("user", user);
-    		request.getRequestDispatcher("profile.jsp").forward(request, response);
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/profile.jsp");
+            PrintWriter out= response.getWriter();
+            out.println("<script>\n" + 
+            		"\n" + 
+            		"    alert(\"Heureu de vous revoir parmis nous Mr "+ name +" !\");\n" + 
+            		"\n" + 
+            		"</script>\n" + 
+            		"");
+            rd.include(request, response);
+            
+            
+            //request.setAttribute("user", user);
+    		//request.getRequestDispatcher("profile.jsp").forward(request, response);
            // response.sendRedirect("profile.jsp");
         }
         else {
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.jsp");
             PrintWriter out= response.getWriter();
-            out.println("<font color=red>Either user name or password is wrong.</font>");
+            out.println("<font color=red>Nom d'utilisateur ou mot de passe incorrecte.</font>");
             rd.include(request, response);
         }
 	}

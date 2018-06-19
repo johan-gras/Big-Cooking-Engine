@@ -45,7 +45,7 @@ public class ServeltRateIngred extends HttpServlet {
 			System.out.println("True Path "+ truePath);
 			i.setPhoto(truePath);
 			System.out.println("session: " +Session.getInstance().getUser().getName());
-			Neo4J.ratingIngred("aa@aa.aa", i.getId(), intRate);
+			Neo4J.ratingIngred(Session.getInstance().getUser().getName(), i.getId(), intRate);
 			request.setAttribute("ingred", i);
 
 		} catch (SQLException e) {

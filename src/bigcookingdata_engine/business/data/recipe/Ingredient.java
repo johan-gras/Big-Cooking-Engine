@@ -7,7 +7,7 @@ public class Ingredient {
     private String name = null;
     private int quantity = -1;
     private String photo = null;
-    
+    private String score = null;
 
     public Ingredient(){
 
@@ -69,6 +69,21 @@ public class Ingredient {
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
+
+	public String getScore() {
+		return score;
+	}
+
+	public void setScore(String score) {
+		this.score = score;
+	}
+
+	@Override
+	public String toString() {
+		return "Ingredient [id=" + id + ", complement=" + complement + ", prefix=" + prefix + ", name=" + name
+				+ ", quantity=" + quantity + ", photo=" + photo + ", score=" + score + "]";
+	}
     
+	
     
 }

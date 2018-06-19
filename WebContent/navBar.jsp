@@ -9,11 +9,18 @@
 		<a class="navbar-brand" href="index.jsp">Page d'acceuil</a>
 		<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 			<li class="nav-item active"><a class="nav-link"
-				href="profile.jsp">Profile <span class="sr-only">(current)</span>
+				href="profile.jsp" style="color: green;">Profile <span class="sr-only">(current)</span>
 			</a></li>
-			<li class="nav-item"><a class="nav-link"
-				href="ServletRecomendationRecipe">Mes recommendations</a></li>
-			</li>
+			<li class="nav-item active"><a class="nav-link"
+				href="ServletRecomendationRecipe" style="color: green;">Mes recommendations</a></li>
+			<li class="nav-item active"><a class="nav-link"
+				href="ServletRatedIng" style="color: green;">Mes Ingrédients
+					favoris <span class="sr-only">(current)</span>
+			</a></li>
+			<li class="nav-item active"><a class="nav-link"
+				href="LogOut" style="color: red;">Déconnexion <span class="sr-only">(current)</span>
+			</a></li>
+
 		</ul>
 		<form class="form-inline my-2 my-lg-0">
 			<input class="form-control mr-sm-2" type="search"

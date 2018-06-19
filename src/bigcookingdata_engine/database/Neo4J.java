@@ -23,7 +23,7 @@ public abstract class Neo4J implements java.sql.Connection {
 	public static void main(String[] args) throws Exception {
 		ArrayList<Recipe> al = new ArrayList<>();
 		ArrayList<Utensil> sl = new ArrayList<>();
-		createUser("max","test","sdf@fr.fr","23");
+		System.out.println("Rating ing: "+getRatingIngred2("aa@aa.aa"));
 		//System.out.println("TOP3" + Neo4J.getIngredByTop3("aa@aa.aa"));
 
 		// ICI VOUS POUVEZ METTRE COMBIEN VOUS VOULEZ D INGREDIENT
@@ -224,7 +224,6 @@ public abstract class Neo4J implements java.sql.Connection {
 			java.sql.ResultSet rs = stmt.executeQuery(query);
 			if (!rs.next())
 				return null;
-
 			String r = rs.getString(1);
 			JSONObject json = new JSONObject(r);
 			user.setName(json.getString("nameUser"));
@@ -631,8 +630,39 @@ public abstract class Neo4J implements java.sql.Connection {
 			e.printStackTrace();
 		}
 		return i;
-		
-		
+	}
+	
+	public static ArrayList<Ingredient> getRatingIngred2(String name) throws JSONException {
+
+		HashMap<Integer, Integer> map = new HashMap<>();
+		// Connect
+		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
+		conn = sc.conn;
+		String query = "MATCH (user:User{nameUser:'"+name+"'})-[lri:LIKE]->(ingred:Ingredient) return lri, ingred";
+		ArrayList<Ingredient> lisIng = new ArrayList<>();
+		// Querying
+		try (java.sql.Statement stmt = conn.createStatement()) {
+			java.sql.ResultSet rs = stmt.executeQuery(query);
+			if (rs == null)
+				System.out.println("RS NULL");
+			while (rs.next()) {
+				Ingredient i = new Ingredient();
+				String score = rs.getString(1);
+				String ingred = rs.getString(2);
+				JSONObject scoreJson = new JSONObject(score);
+				JSONObject ingredJson = new JSONObject(ingred);
+				i.setId(Integer.parseInt(ingredJson.getString("idIngred")));
+				i.setName(ingredJson.getString("nameIngred"));
+				String photo = ingredJson.getString("photoIngred").replace("C:\\Users\\Admin\\", "");
+				i.setPhoto(photo);
+				i.setScore(scoreJson.getString("rateIngred"));
+				lisIng.add(i);
+				System.out.println(i.toString());
+		}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lisIng;
 	}
 
 }
