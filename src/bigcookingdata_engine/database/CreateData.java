@@ -2,7 +2,7 @@ package bigcookingdata_engine.database;
 
 public class CreateData {
     public static void main(String[] args) throws Exception {
-        Neo4J.createUser("aa@aa.aa", "a", "a");
+        Neo4J.createUser("aa@aa.aa", "a", "a","12");
         Neo4J.ratingIngred("aa@aa.aa", 2, 10);
         Neo4J.ratingIngred("aa@aa.aa", 3, 10);
         Neo4J.ratingIngred("aa@aa.aa", 4, 10);

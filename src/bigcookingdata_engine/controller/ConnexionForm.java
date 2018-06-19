@@ -29,7 +29,7 @@ public class ConnexionForm extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String user = request.getParameter("user");
+		String user = request.getParameter("email");
 		String pwd = request.getParameter("pwd");
 		String name = Session.getInstance().connection( user,pwd );
         

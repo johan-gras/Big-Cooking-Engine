@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 
 import bigcookingdata_engine.business.data.recipe.Ingredient;
+import bigcookingdata_engine.business.engine.Session;
 import bigcookingdata_engine.database.Neo4J;
 
 /**
@@ -25,6 +26,10 @@ public class ServeltRateIngred extends HttpServlet {
 			throws ServletException, IOException {
 
 		String rate = request.getParameter("param");
+		int intRate = 0;
+		if( rate!= null || rate==""||rate=="null")
+		intRate = Integer.parseInt(rate);
+		
 		System.out.println(rate);
 		Ingredient i = new Ingredient();
 //		if (rate=="null"||rate == null) {
@@ -32,10 +37,15 @@ public class ServeltRateIngred extends HttpServlet {
 //		System.out.println("premier rate "+r);
 //		}
 		try {
-
 			i = Neo4J.getRandomIngred();
 			System.out.println(i.getName());
 			System.out.println(i.getPhoto());
+			String path = i.getPhoto();
+			String truePath = path.replace("C:\\Users\\Admin\\", "");
+			System.out.println("True Path "+ truePath);
+			i.setPhoto(truePath);
+			System.out.println("session: " +Session.getInstance().getUser().getName());
+			Neo4J.ratingIngred("aa@aa.aa", i.getId(), intRate);
 			request.setAttribute("ingred", i);
 
 		} catch (SQLException e) {

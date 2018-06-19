@@ -8,6 +8,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
 	crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="<c:url value='/CSS/style.css' />" >
 
 <!-- Optional theme -->
 <link rel="stylesheet"
@@ -47,7 +48,7 @@
 <body>
 	<div class="container">
 
-		<form class="well form-horizontal" action=" " method="post"
+		<form class="well form-horizontal" action="ServeltRateIngred?param=3" method="post"
 			id="inscription_form">
 			<fieldset>
 

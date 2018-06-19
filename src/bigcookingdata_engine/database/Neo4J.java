@@ -23,6 +23,7 @@ public abstract class Neo4J implements java.sql.Connection {
 	public static void main(String[] args) throws Exception {
 		ArrayList<Recipe> al = new ArrayList<>();
 		ArrayList<Utensil> sl = new ArrayList<>();
+		createUser("max","test","sdf@fr.fr","23");
 		//System.out.println("TOP3" + Neo4J.getIngredByTop3("aa@aa.aa"));
 
 		// ICI VOUS POUVEZ METTRE COMBIEN VOUS VOULEZ D INGREDIENT
@@ -194,13 +195,13 @@ public abstract class Neo4J implements java.sql.Connection {
 
 	}
 
-	public static void createUser(String name, String mail, String password) throws SQLException {
+	public static void createUser(String name, String mail, String password, String poids) throws SQLException {
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
 		// int keyId;
 		// keyId+1;
-		String query = "CREATE (n:User { nameUser: '" + name + "', mail: '" + mail + "',password: '" + password + "'})";
+		String query = "CREATE (n:User { nameUser: '" + name + "', mail: '" + mail + "',password: '" + password + "', poids: '"+ poids +"' })";             
 		System.out.println(query);
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
