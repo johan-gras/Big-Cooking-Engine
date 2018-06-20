@@ -35,11 +35,11 @@
 		<div class="col d-block mx-auto"
 			style="background-color: white; width: 50%;">
 
-			<b>Infos presonnelles</b>
+			<b>Informations personnelles</b>
 			<ul>
-				<li><b>Nom: </b>${user}</li>
-				<li><b>Prénom: </b>Kenny</li>
-				<li><b>Date de Naissance: </b>18/11/1988</li>
+				<li><b>Nom: </b>${nameUser}</li>
+				<li><b>Mail: </b>${mail}</li>
+				<li><b>Poids </b>${poids}</li>
 			</ul>
 
 		</div>

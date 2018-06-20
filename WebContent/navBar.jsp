@@ -5,6 +5,8 @@
 		aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
+	<p>Connecté: <b>${username}</b></p>
+	
 	<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
 		<a class="navbar-brand" href="index.jsp">Page d'acceuil</a>
 		<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
@@ -13,6 +15,8 @@
 			</a></li>
 			<li class="nav-item active"><a class="nav-link"
 				href="ServletRecomendationRecipe" style="color: green;">Mes recommendations</a></li>
+				<li class="nav-item active"><a class="nav-link"
+				href="ServeltRateIngred" style="color: green;">Ajouter des Ingrédients préfèrés</a></li>
 			<li class="nav-item active"><a class="nav-link"
 				href="ServletRatedIng" style="color: green;">Mes Ingrédients
 					favoris <span class="sr-only">(current)</span>

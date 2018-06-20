@@ -33,11 +33,11 @@ public class CreatUser extends HttpServlet {
 		String prenom = request.getParameter("last_name");
 		String user_name = request.getParameter("user_name");
 		String pass = request.getParameter("user_password");
-		String poid = request.getParameter("poid");
+		String poids = request.getParameter("poid");
 		String email = request.getParameter("email");
 		
 		try {
-			Neo4J.createUser(user_name, email, pass, poid);
+			Neo4J.createUser(user_name, email, pass, poids);
 			System.out.println("user created !!");
 			request.getRequestDispatcher("/ServeltRateIngred").forward(request, response);
 		} catch (SQLException e) {
@@ -45,7 +45,7 @@ public class CreatUser extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		System.out.println(name + prenom + user_name + pass + poid + email );
+		System.out.println(name + prenom + user_name + pass + poids + email );
 		//request.getRequestDispatcher("SuggestionIng.jsp").forward(request, response);
 
 	}
