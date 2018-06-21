@@ -62,7 +62,10 @@ public abstract class Neo4J implements java.sql.Connection {
 		// getSteps(22);
 		// createUser("aa@aa.aa", "", "a");
 		// System.out.println(connection("a", "a"));
-		getRandomIngred();
+		//getRandomIngred();
+		System.out.println("begin");
+		ratingRecipe("a",124, 7);
+		System.out.println("end");
 	}
 
 	public static ArrayList<Recipe> getRecipesByIngred(String... ingred) throws SQLException, JSONException {
@@ -511,6 +514,18 @@ public abstract class Neo4J implements java.sql.Connection {
 		return TopList;
 	}
 
+	public static void ratingRecipe(String mail, int idRecip, int score) throws SQLException {
+		// Connect
+		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
+		conn = sc.conn;
+		String query = "MATCH (u:User{mail:'" + mail + "'})\n" + "MATCH (r:Recipe{idRecipe:'" + idRecip
+				+ "'})\n" + "MERGE (u)-[l:LIKE]->(r) SET l.score='"+score+"' ";
+		// Querying
+		try (java.sql.Statement stmt = conn.createStatement()) {
+			java.sql.ResultSet rs = stmt.executeQuery(query);
+		}
+	}
+	
 	public static void ratingCluster(String name, int id_cluster, int value) throws SQLException {
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
@@ -556,7 +571,7 @@ public abstract class Neo4J implements java.sql.Connection {
 		return list;
 	}
 
-	public void calculEuclideanDistance(int id_user) throws SQLException {
+	public void calculEuclideanDistance() throws SQLException {
 
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
@@ -571,10 +586,33 @@ public abstract class Neo4J implements java.sql.Connection {
 		}
 	}
 
-	public HashMap<Integer, Integer> getSimilarUser(int id_user) {
+	public ArrayList<String> getSimilarUser(int email) {
+		
+		ArrayList<Integer> list = new ArrayList<>();
+		HashMap<Integer, Integer> map = new HashMap<>();
+
+		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
+		conn = sc.conn;
+		
+		String query = "match (u1:User{email:'"+email+"'})-[d:DISTANCE]->(u2:User)"
+						+"with toInt(d.euclidean) AS distance , u2"
+						+"return u2, distance ORDER BY distance";
+		// Querying
+		try (java.sql.Statement stmt = conn.createStatement()) {
+			java.sql.ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				String idCluster = rs.getString(1);
+				String score = rs.getString(2);
+				map.put(Integer.parseInt(idCluster), Integer.parseInt(score));
+			}
+			// System.out.println(map.toString());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 
 	}
+	
 
 	/**
 	 * Methode pour la suggestion des recettes
