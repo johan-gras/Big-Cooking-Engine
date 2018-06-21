@@ -10,6 +10,8 @@ import bigcookingdata_engine.business.data.user.User;
 import org.json.*;
 import org.parboiled.common.ImmutableList;
 
+import com.sun.javafx.css.CalculatedValue;
+
 import bigcookingdata_engine.business.data.recipe.Ingredient;
 import bigcookingdata_engine.business.data.recipe.Recipe;
 import bigcookingdata_engine.business.data.recipe.Step;
@@ -21,60 +23,21 @@ public abstract class Neo4J implements java.sql.Connection {
 	private static java.sql.Connection conn = null;
 
 	public static void main(String[] args) throws Exception {
-		ArrayList<Recipe> al = new ArrayList<>();
-		ArrayList<Utensil> sl = new ArrayList<>();
-		ArrayList<String> l = new ArrayList<>();
-		// l.add("Sel");
-		// l.add("fromage");
-		// getRecipeFromFrigo(l);
 
-		addIngredientToFrigo("159", "sofiane.hamiti18@outlook.fr");
+//		createUser("rezki", "rez", "jo", "26");
+//
+//		ratingIngred("rez", 12, 5);
+//		ratingIngred("rez", 22, 9);
+//		ratingIngred("rez", 32, 9);
+//
+//		calculEuclideanDistance();
+		//getSimilarUser("aiss");
+//		ratingRecipe("max", 40, 7);
+//		ratingRecipe("max", 432, 7);
+//		ratingRecipe("max",654, 7);
+		getBestRecipe("aiss");
+		
 
-		// calculEuclideanDistance(324);
-		// System.out.println("Rating ing: "+getRatingIngred2("aa@aa.aa"));
-		// System.out.println("TOP3" + Neo4J.getIngredByTop3("aa@aa.aa"));
-
-		// ICI VOUS POUVEZ METTRE COMBIEN VOUS VOULEZ D INGREDIENT
-		// getRecipesByIngred("pommes","bananes");
-		// getSteps(10); ok
-		// getUtensil(5); ok
-		// createUser("max","lagme@gmail.com","pass","70");
-		// userLike("sofiane","hami","rhubarbes",6); ok
-		// getRecipes(i); ok mais il manque les cat�gories
-		// getRecipesByIngred(i); ok mais il manque les cat�gories
-		// getRecipesByCluster(5); ok mais il manque les cat�gories
-		// getIngreds(i); ok
-		// ratingIngred("sofiane", 2, 8); ok
-		// getRatingIngred("sofiane"); //ok
-		// ratingCluster(String name, int id_cluster, int value) : ok
-		// getUtensilByRecipId(10);
-		// getStepByIdRecip(498);
-		// for(int i=0; i<al.size();i++){
-		// System.out.println(al.get(i).title);
-		// }
-		// System.out.println(sl);
-
-		int[] i = { 1 };
-		// createUser("aa@aa.aa", "", "a");
-		// System.out.println(connection("a", "a"));
-		// getSteps(22);
-		// createUser("aissam", "aissam@a.com", "aaa");
-		// createUser("maxence", "maxence@a.com", "aaa");
-		// userLike("aissam", "aissam@a.com", "carottes", 6);
-		// createUser("aissam", "aissam@a.com", "aaa");
-		// createUser("maxence", "maxence@a.com", "aaa");
-		// userLike("aissam", "aissam@a.com", "carottes", 6);
-		// System.out.println(connection("a", "a"));
-		// getSteps(22);
-		// createUser("aa@aa.aa", "", "a");
-		// System.out.println(connection("a", "a"));
-		//getRandomIngred();
-		System.out.println("begin");
-		ratingRecipe("a",124, 7);
-		System.out.println("end");
-		// getRandomIngred();
-		// ratingRecipe("lagme@gmail.com", 1, 8);
-		// getRecipesByCategorie("V�g�tarien");
 	}
 
 	public static ArrayList<Recipe> getRecipesByIngred(String... ingred) throws SQLException, JSONException {
@@ -612,14 +575,14 @@ public abstract class Neo4J implements java.sql.Connection {
 		return list;
 	}
 
-	public void calculEuclideanDistance() throws SQLException {
+	public static void calculEuclideanDistance() throws SQLException {
 
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
 		String query = "MATCH (u1:User)-[x:LIKE]->(i:Ingredient)," + "(u2:User)-[y:LIKE]->(i)" + "WHERE id(u1)<id(u2)"
-				+ " WITH sqrt(sum((toInt(x.score)-toInt(y.score))^2)) AS euc , u1, u2"
-				+ " MERGE (u1)-[d:DISTANCE]->(u2)" + "SET d.euclidean=euc;";
+				+ " WITH sqrt(sum((toInt(x.rateIngred)-toInt(y.rateIngred))^2)) AS euc , u1, u2"
+				+ " MERGE (u1)-[d:DISTANCE]-(u2)" + "SET d.euclidean=euc;";
 
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
@@ -628,32 +591,63 @@ public abstract class Neo4J implements java.sql.Connection {
 		}
 	}
 
-	public ArrayList<String> getSimilarUser(int email) {
+	public static ArrayList<String> getSimilarUser(String mail) throws JSONException {
 		
-		ArrayList<Integer> list = new ArrayList<>();
-		HashMap<Integer, Integer> map = new HashMap<>();
-
+		ArrayList<String> list = new ArrayList<>();
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
 		
-		String query = "match (u1:User{email:'"+email+"'})-[d:DISTANCE]->(u2:User)"
-						+"with toInt(d.euclidean) AS distance , u2"
-						+"return u2, distance ORDER BY distance";
+		String query = "match (u1:User{mail:'"+mail+"'})-[d:DISTANCE]->(u2:User) "
+						+"with toInt(d.euclidean) AS distance , u2 "
+						+"return u2, distance ORDER BY distance limit 3";
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
 			java.sql.ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				String idCluster = rs.getString(1);
-				String score = rs.getString(2);
-				map.put(Integer.parseInt(idCluster), Integer.parseInt(score));
+				String result = rs.getString(1);
+				//System.out.println(result);
+				JSONObject json = new JSONObject(result);
+				//System.out.println(json.getString("mail"));
+				list.add(json.getString("mail"));
+				
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+	
+	public static ArrayList<Integer> getBestRecipe(String mail) throws JSONException{
+		
+		ArrayList<String> list = new ArrayList<>();
+		ArrayList<Integer> result = new ArrayList<>();
+
+		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
+		conn = sc.conn;
+		list=getSimilarUser(mail);
+		for(int i=0;i<list.size();i++){
+		String query = "MATCH (u:User{mail:'"+list.get(i)+"'}),(r:Recipe),(u)-[l:LIKE]->(r)"
+				+"return r.idRecipe ORDER BY toInt(l.score) DESC limit 3";
+		
+		// Querying
+		try (java.sql.Statement stmt = conn.createStatement()) {
+			java.sql.ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				//rs.getString(1);
+				System.out.println(rs.getString(1));
+				result.add(Integer.parseInt(rs.getString(1)));
+			}
+		
 			// System.out.println(map.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
-
+		
+		}
+		return result;
 	}
+	
 	
 
 	public static Ingredient getIngeByName(String name) {
