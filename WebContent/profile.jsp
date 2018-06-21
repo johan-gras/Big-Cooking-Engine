@@ -46,14 +46,29 @@
 		<a class="btn btn-primary btn-lg btn-block d-block mx-auto"
 			href="ServletRecomendationRecipe" role="button" style="width: 50%;">Recommander
 			3 recettes</a>
+			<br>
+			<br>
+			<form class="form-inline d-flex justify-content-center" action="ServletSearchIngrd" method="post">
+				<label for="email"></label> <input type="text" placeholder="Nom de l'ingrédient"
+					class="form-control" name="ingrdKey"> <label for="pwd"></label>
+
+				<button type="submit" class="btn btn-primary">Ajouter</button>
+			</form>
+
 
 	</div>
 
 
 	<div class="d-flex justify-content-center">
+
+
 		<div class="card d-flex justify-content-center"
 			style="width: 24rem; margin: 20px;">
-			<h1 style="color: gray;" class="d-flex justify-content-center"> Frigo Virtuel</h1>
+
+			<h1 style="color: gray;" class="d-flex justify-content-center">
+				Frigo Virtuel</h1>
+
+
 			<ol>
 				<c:forEach items="${listIngred}" var="i">
 					<div class="container">

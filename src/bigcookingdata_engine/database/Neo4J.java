@@ -106,9 +106,7 @@ public abstract class Neo4J implements java.sql.Connection {
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
 		//String query = "match (s:Step)-[:IS_STEP]->(:Recipe{idRecipe:'" + idRecip + "'}) return s";
-		String query = "match (s:Step)-[:IS_STEP]->(:Recipe{idRecipe:'" + idRecip + "'}) "
-				+ "with toInt(s.numberStep) as nbStep,s"
-					+"return s order by nbStep";
+		String query =" match (s:Step)-[:IS_STEP]->(:Recipe{idRecipe:'" + idRecip + "'}) return s";
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
 			java.sql.ResultSet rs = stmt.executeQuery(query);

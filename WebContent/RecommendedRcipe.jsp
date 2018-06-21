@@ -49,11 +49,11 @@
 						<p>
 							<b>Les étapes :</b>
 						</p>
-						<ul>
+						<ol>
 							<c:forEach items="${recipe.steps }" var="step">
 								<li><b>${step.numberStep}</b>${step.descStep}</li>
 							</c:forEach>
-						</ul>
+						</ol>
 						<br>
 						<p>
 							<b>Les Ustensils :</b>

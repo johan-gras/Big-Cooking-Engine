@@ -24,7 +24,7 @@
 <body>
 	<c:import url="navBar.jsp"></c:import>
 	<br>
-	<h2 class="d-flex justify-content-center" style="background-color: white;"><b>Evaluation des ingrédients </b></h2>
+	<h2 class="d-flex justify-content-center" style="background-color: white;"><b>Score de mes ingrédients </b></h2>
 	<div class="container">
 		<div class="row d-flex justify-content-center">
 			<c:forEach items="${ing}" var="r">
