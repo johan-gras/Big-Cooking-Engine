@@ -35,7 +35,7 @@ public abstract class Neo4J implements java.sql.Connection {
 //		ratingRecipe("max", 40, 7);
 //		ratingRecipe("max", 432, 7);
 //		ratingRecipe("max",654, 7);
-		getBestRecipe("aiss");
+		getBestRecipe("aissam@gmail.com");
 		
 
 	}
@@ -179,7 +179,7 @@ public abstract class Neo4J implements java.sql.Connection {
 		conn = sc.conn;
 		// int keyId;
 		// keyId+1;
-		String query = "CREATE (n:User { nameUser: '" + name + "', mail: '" + mail + "',password: '" + password
+		String query = "MERGE (n:User { nameUser: '" + name + "', mail: '" + mail + "',password: '" + password
 				+ "', poids: '" + poids + "' })";
 		System.out.println(query);
 		// Querying
@@ -218,7 +218,7 @@ public abstract class Neo4J implements java.sql.Connection {
 
 	public static void userLike(String name, String mail, String ingredient, int score) throws SQLException {
 		String query = "MATCH (a:User),(b:Ingredient{nameIngred:'" + ingredient + "'})" + "WHERE a.nameUser = '" + name
-				+ "' AND a.mail='" + mail + "'" + "CREATE (a)-[r:LIKE{score:'" + score + "'}]->(b);";
+				+ "' AND a.mail='" + mail + "'" + "MERGE (a)-[r:LIKE{score:'" + score + "'}]->(b);";
 		System.out.println(query);
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
@@ -608,7 +608,7 @@ public abstract class Neo4J implements java.sql.Connection {
 			java.sql.ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				String result = rs.getString(1);
-				//System.out.println(result);
+				System.out.println(result);
 				JSONObject json = new JSONObject(result);
 				//System.out.println(json.getString("mail"));
 				list.add(json.getString("mail"));
@@ -630,9 +630,9 @@ public abstract class Neo4J implements java.sql.Connection {
 		conn = sc.conn;
 		list=getSimilarUser(mail);
 		for(int i=0;i<list.size();i++){
-		String query = "MATCH (u:User{mail:'"+list.get(i)+"'}),(r:Recipe),(u)-[l:LIKE]->(r)"
+		String query = "MATCH (u:User{mail:'"+list.get(i)+"'}),(r:Recipe),(u)-[l:LIKE]->(r) "
 				+"return r.idRecipe ORDER BY toInt(l.score) DESC limit 3";
-		
+		System.out.println(query);
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
 			java.sql.ResultSet rs = stmt.executeQuery(query);
