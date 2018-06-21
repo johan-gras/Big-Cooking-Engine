@@ -23,7 +23,19 @@ public abstract class Neo4J implements java.sql.Connection {
 	public static void main(String[] args) throws Exception {
 		ArrayList<Recipe> al = new ArrayList<>();
 		ArrayList<Utensil> sl = new ArrayList<>();
-		calculEuclideanDistance(324);
+		ArrayList<String> l = new ArrayList<>();
+		l.add("sel");
+		l.add("eau");
+		l.add("boeuf");
+		String q = "MATCH (a)-[:IS_COMPOSED_TO]->(i:Ingredient)\n" + 
+				"WHERE i.nameIngred IN [";
+		for (int i=0; i<l.size()-1;i++) {
+			q += "'"+l.get(i)+"'";
+			q += ",";
+		}
+		q+=l.get(l.size()-1)+"] RETURN a limit 10";
+		System.out.println(q);
+		//calculEuclideanDistance(324);
 		//System.out.println("Rating ing: "+getRatingIngred2("aa@aa.aa"));
 		//System.out.println("TOP3" + Neo4J.getIngredByTop3("aa@aa.aa"));
 
@@ -63,7 +75,7 @@ public abstract class Neo4J implements java.sql.Connection {
 		// System.out.println(connection("a", "a"));
 		//getRandomIngred();
 		//ratingRecipe("lagme@gmail.com", 1, 8);
-		//getRecipesByCategorie("Végétarien");
+		//getRecipesByCategorie("Vï¿½gï¿½tarien");
 	}
 
 	public static ArrayList<Recipe> getRecipesByIngred(String... ingred) throws SQLException, JSONException {

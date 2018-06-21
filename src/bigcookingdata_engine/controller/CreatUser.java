@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bigcookingdata_engine.business.engine.Session;
 import bigcookingdata_engine.database.Neo4J;
 
 @WebServlet("/CreatUser")
@@ -39,6 +40,7 @@ public class CreatUser extends HttpServlet {
 		try {
 			Neo4J.createUser(user_name, email, pass, poids);
 			System.out.println("user created !!");
+			Session.getInstance().connection( email,pass );
 			request.getRequestDispatcher("/ServeltRateIngred").forward(request, response);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
