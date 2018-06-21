@@ -38,12 +38,14 @@ public class ServletRecomendationRecipe extends HttpServlet {
 		
 	    
 		//Session.getInstance().connection("aa@aa.aa", "a");
-
+		System.out.println("ma session "+Session.getInstance().getUser().getName());
 		Recommender reco = new Recommender();
-		
 		ArrayList<Recipe> li = new ArrayList<>();
-		
 		li = reco.getRecoSuper();
+		
+		
+		
+		System.out.println("nb recette recommendé"+li.size());
 		String nameuser=Session.getInstance().getUser().getName();
 		System.out.println("nb Recettes recommendées: " + li.size());
 		System.out.println("nb taille step" + li.get(1).getIngredients().size());
@@ -51,8 +53,7 @@ public class ServletRecomendationRecipe extends HttpServlet {
 		request.setAttribute("username", name);
 		request.setAttribute("User", nameuser);
 		request.setAttribute("rec", li);
-		
-		request.getRequestDispatcher("index.jsp").forward(request, response);
+		request.getRequestDispatcher("RecommendedRcipe.jsp").forward(request, response);
 	}
 
 	/**

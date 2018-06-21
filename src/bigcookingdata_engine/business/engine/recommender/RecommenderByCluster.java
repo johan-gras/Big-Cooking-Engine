@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class RecommenderByCluster extends RecommenderCell {
     @Override
     public HashMap<Integer, Integer> scoring() {
-        ArrayList<Integer> clustersRating = Neo4J.getRatingClusters(Session.getInstance().getUser().getName());
+        ArrayList<Integer> clustersRating = Neo4J.getRatingClusters(Session.getInstance().getUser().getMail());
         HashMap<Integer, Integer> map = new HashMap<>();
 
         for (int cluster = 0 ; cluster<clustersRating.size() ; cluster++){
