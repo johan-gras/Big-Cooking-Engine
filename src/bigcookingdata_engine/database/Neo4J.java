@@ -35,7 +35,7 @@ public abstract class Neo4J implements java.sql.Connection {
 //		ratingRecipe("max", 40, 7);
 //		ratingRecipe("max", 432, 7);
 //		ratingRecipe("max",654, 7);
-		getBestRecipe("aissam@gmail.com");
+		System.out.println(getBestRecipe("aissam@gmail.com"));
 		
 
 	}
@@ -621,14 +621,20 @@ public abstract class Neo4J implements java.sql.Connection {
 
 	}
 	
-	public static ArrayList<Integer> getBestRecipe(String mail) throws JSONException, SQLException{
+	public static ArrayList<Integer> getBestRecipe(String mail) {
 		
 		ArrayList<String> list = new ArrayList<>();
 		ArrayList<Integer> result = new ArrayList<>();
 
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
-		list=getSimilarUser(mail);
+		try {
+			list=getSimilarUser(mail);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		for(int i=0;i<list.size();i++){
 		String query = "MATCH (u:User{mail:'"+list.get(i)+"'}),(r:Recipe),(u)-[l:LIKE]->(r) "
 				+"return r.idRecipe ORDER BY toInt(l.score) DESC limit 3";
