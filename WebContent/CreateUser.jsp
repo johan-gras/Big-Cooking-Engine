@@ -48,7 +48,7 @@
 <body>
 	<div class="container">
 
-		<form class="well form-horizontal" action="ServeltRateIngred?param=3" method="post"
+		<form class="well form-horizontal" action="CreatUser" method="post"
 			id="inscription_form">
 			<fieldset>
 

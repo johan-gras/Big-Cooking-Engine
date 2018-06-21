@@ -40,7 +40,7 @@ public class Session {
         String userID = "aa@aa.aa";
         String password = "aa";
         if (user.equals(userID) && pwd.equals(password)){
-            User fake_user = new User(0, "a", "body", "m", 120.);
+            User fake_user = new User(0, "a", "body", "m", "120");
             return fake_user;
         }
         return null;

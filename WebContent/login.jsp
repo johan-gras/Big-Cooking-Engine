@@ -42,7 +42,7 @@
                                 <label for='password'>mot de passe</label>
                             </div>
                             <label style='float: right;'>
-								<a class='pink-text' href='#!'><b>Mot de passe oubliÃ©?</b></a>
+								<a class='pink-text' href='#!'><b>Mot de passe oublié</b></a>
 							</label>
                         </div>
 
@@ -55,7 +55,7 @@
                     </form>
                 </div>
             </div>
-            <a href="#!">CrÃ©er un compte</a>
+            <a href="#!">Créer un compte</a>
         </center>
 
         <div class="section"></div>

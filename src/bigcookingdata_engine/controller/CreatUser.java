@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bigcookingdata_engine.business.engine.Session;
 import bigcookingdata_engine.database.Neo4J;
 
 @WebServlet("/CreatUser")
@@ -33,19 +34,20 @@ public class CreatUser extends HttpServlet {
 		String prenom = request.getParameter("last_name");
 		String user_name = request.getParameter("user_name");
 		String pass = request.getParameter("user_password");
-		String poid = request.getParameter("poid");
+		String poids = request.getParameter("poid");
 		String email = request.getParameter("email");
 		
 		try {
-			Neo4J.createUser(user_name, email, pass, poid);
+			Neo4J.createUser(user_name, email, pass, poids);
 			System.out.println("user created !!");
+			Session.getInstance().connection( email,pass );
 			request.getRequestDispatcher("/ServeltRateIngred").forward(request, response);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		System.out.println(name + prenom + user_name + pass + poid + email );
+		System.out.println(name + prenom + user_name + pass + poids + email );
 		//request.getRequestDispatcher("SuggestionIng.jsp").forward(request, response);
 
 	}

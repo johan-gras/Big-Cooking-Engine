@@ -15,8 +15,8 @@ public class User {
 	private String name;
 	private String surname;
 	private String sexe;
-	private double weight;
-
+	private String weight;
+	private String mail;
 	/**
 	 * Constructor without fields
 	 */
@@ -24,7 +24,7 @@ public class User {
 		super();
 	}
 
-	public User(int id, String name, String surname, String sexe, double weight) {
+	public User(int id, String name, String surname, String sexe, String weight) {
 		super();
 		this.name = name;
 		this.surname = surname;
@@ -65,12 +65,21 @@ public class User {
 		this.sexe = sexe;
 	}
 
-	public double getWeight() {
+	public String getWeight() {
 		return weight;
 	}
 
-	public void setWeight(double weight) {
-		this.weight = weight;
+	public void setWeight(String string) {
+		this.weight = string;
+	}
+
+	
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 
 	@Override

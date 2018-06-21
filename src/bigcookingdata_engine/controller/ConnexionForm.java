@@ -1,5 +1,6 @@
 package bigcookingdata_engine.controller;
 
+import bigcookingdata_engine.business.data.user.User;
 import bigcookingdata_engine.business.engine.Session;
 import bigcookingdata_engine.database.Neo4J;
 
@@ -29,11 +30,14 @@ public class ConnexionForm extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String user = request.getParameter("email");
+		String email = request.getParameter("email");
 		String pwd = request.getParameter("pwd");
-		String name = Session.getInstance().connection( user,pwd );
-        
-        if (name != null && Neo4J.connection(user, pwd)!=null){
+		String name = Session.getInstance().connection( email,pwd );
+		String mail =Session.getInstance().getUser().getMail();
+        if (mail != null && Neo4J.connection(mail, pwd)!=null){
+        	User u  = new User();
+        	u= Neo4J.connection(email, pwd);
+        	Session.getInstance().connection( u.getMail() ,pwd );
             Cookie loginCookie = new Cookie("user",name);
             loginCookie.setMaxAge(30*60);
             response.addCookie(loginCookie);
@@ -41,10 +45,13 @@ public class ConnexionForm extends HttpServlet {
             PrintWriter out= response.getWriter();
             out.println("<script>\n" + 
             		"\n" + 
-            		"    alert(\"Heureu de vous revoir parmis nous Mr "+ name +" !\");\n" + 
+            		"    alert(\"Heureux de vous revoir parmis nous "+ name +" !\");\n" + 
             		"\n" + 
             		"</script>\n" + 
             		"");
+            request.setAttribute("nameUser", u.getName());
+            request.setAttribute("poids", u.getWeight());
+            request.setAttribute("mail", mail);
             rd.include(request, response);
             
             

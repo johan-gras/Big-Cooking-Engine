@@ -23,14 +23,22 @@ public abstract class Neo4J implements java.sql.Connection {
 	public static void main(String[] args) throws Exception {
 		ArrayList<Recipe> al = new ArrayList<>();
 		ArrayList<Utensil> sl = new ArrayList<>();
-		System.out.println("Rating ing: "+getRatingIngred2("aa@aa.aa"));
-		//System.out.println("TOP3" + Neo4J.getIngredByTop3("aa@aa.aa"));
+		ArrayList<String> l = new ArrayList<>();
+		// l.add("Sel");
+		// l.add("fromage");
+		// getRecipeFromFrigo(l);
+
+		addIngredientToFrigo("159", "sofiane.hamiti18@outlook.fr");
+
+		// calculEuclideanDistance(324);
+		// System.out.println("Rating ing: "+getRatingIngred2("aa@aa.aa"));
+		// System.out.println("TOP3" + Neo4J.getIngredByTop3("aa@aa.aa"));
 
 		// ICI VOUS POUVEZ METTRE COMBIEN VOUS VOULEZ D INGREDIENT
 		// getRecipesByIngred("pommes","bananes");
 		// getSteps(10); ok
 		// getUtensil(5); ok
-		// createUser("sofiane","hami","70"); ok
+		// createUser("max","lagme@gmail.com","pass","70");
 		// userLike("sofiane","hami","rhubarbes",6); ok
 		// getRecipes(i); ok mais il manque les cat�gories
 		// getRecipesByIngred(i); ok mais il manque les cat�gories
@@ -39,8 +47,6 @@ public abstract class Neo4J implements java.sql.Connection {
 		// ratingIngred("sofiane", 2, 8); ok
 		// getRatingIngred("sofiane"); //ok
 		// ratingCluster(String name, int id_cluster, int value) : ok
-		// getRatingClusters("sofiane"); //: ok
-
 		// getUtensilByRecipId(10);
 		// getStepByIdRecip(498);
 		// for(int i=0; i<al.size();i++){
@@ -51,7 +57,7 @@ public abstract class Neo4J implements java.sql.Connection {
 		int[] i = { 1 };
 		// createUser("aa@aa.aa", "", "a");
 		// System.out.println(connection("a", "a"));
-		//getSteps(22);
+		// getSteps(22);
 		// createUser("aissam", "aissam@a.com", "aaa");
 		// createUser("maxence", "maxence@a.com", "aaa");
 		// userLike("aissam", "aissam@a.com", "carottes", 6);
@@ -66,6 +72,9 @@ public abstract class Neo4J implements java.sql.Connection {
 		System.out.println("begin");
 		ratingRecipe("a",124, 7);
 		System.out.println("end");
+		// getRandomIngred();
+		// ratingRecipe("lagme@gmail.com", 1, 8);
+		// getRecipesByCategorie("V�g�tarien");
 	}
 
 	public static ArrayList<Recipe> getRecipesByIngred(String... ingred) throws SQLException, JSONException {
@@ -204,7 +213,8 @@ public abstract class Neo4J implements java.sql.Connection {
 		conn = sc.conn;
 		// int keyId;
 		// keyId+1;
-		String query = "CREATE (n:User { nameUser: '" + name + "', mail: '" + mail + "',password: '" + password + "', poids: '"+ poids +"' })";             
+		String query = "CREATE (n:User { nameUser: '" + name + "', mail: '" + mail + "',password: '" + password
+				+ "', poids: '" + poids + "' })";
 		System.out.println(query);
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
@@ -214,9 +224,9 @@ public abstract class Neo4J implements java.sql.Connection {
 		}
 	}
 
-	public static User connection(String name, String pwd) {
+	public static User connection(String mail, String pwd) {
 		User user = new User();
-		String query = "MATCH (u:User {nameUser:'" + name + "', password:'" + pwd + "'}) return u";
+		String query = "MATCH (u:User {mail:'" + mail + "', password:'" + pwd + "'}) return u";
 		System.out.println(query);
 
 		// Connect
@@ -229,7 +239,9 @@ public abstract class Neo4J implements java.sql.Connection {
 				return null;
 			String r = rs.getString(1);
 			JSONObject json = new JSONObject(r);
+			user.setMail(json.getString("mail"));
 			user.setName(json.getString("nameUser"));
+			user.setWeight(json.getString("poids"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (JSONException e) {
@@ -398,6 +410,34 @@ public abstract class Neo4J implements java.sql.Connection {
 		return recipes_id;
 	}
 
+	public static int[] getRecipesByCategorie(String categorie) {
+
+		int[] recipes_id = {};
+		// Connect
+		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
+		conn = sc.conn;
+		String query = "MATCH (r:Recipe)-[IS_CATEGORIZE]-(categorie:Categorie{nameCategorie:'" + categorie
+				+ "'}) return r limit 30";
+		System.out.println(query);
+		// Querying
+		try (java.sql.Statement stmt = conn.createStatement()) {
+			java.sql.ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				String result = rs.getString(1);
+				// System.out.println(result);
+				JSONObject json = new JSONObject(result);
+				int id = json.getInt("idRecipe");
+				recipes_id = Arrays.copyOf(recipes_id, recipes_id.length + 1);
+				recipes_id[recipes_id.length - 1] = id;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return recipes_id;
+	}
+
 	public static ArrayList<Ingredient> getIngreds(int[] idIngred) throws SQLException, JSONException {
 
 		ArrayList<Ingredient> ingredList = new ArrayList<>();
@@ -441,11 +481,11 @@ public abstract class Neo4J implements java.sql.Connection {
 		}
 	}
 
-	public static void ratingIngred(String name, int id_ingr, int value) {
+	public static void ratingIngred(String mail, int id_ingr, int value) {
 		// Connection
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
-		String query = "MATCH (user:User{nameUser:'" + name + "'}), (ingred:Ingredient{idIngred:'" + id_ingr
+		String query = "MATCH (user:User{mail:'" + mail + "'}), (ingred:Ingredient{idIngred:'" + id_ingr
 				+ "'}) CREATE (user)-[:LIKE{rateIngred:" + value + "}]->(ingred)";
 		System.out.println(query);
 
@@ -457,6 +497,7 @@ public abstract class Neo4J implements java.sql.Connection {
 			e.printStackTrace();
 		}
 	}
+
 
 	public static HashMap<Integer, Integer> getRatingIngred(String name) {
 
@@ -583,6 +624,7 @@ public abstract class Neo4J implements java.sql.Connection {
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
 			java.sql.ResultSet rs = stmt.executeQuery(query);
+			System.out.println(query);
 		}
 	}
 
@@ -614,12 +656,6 @@ public abstract class Neo4J implements java.sql.Connection {
 	}
 	
 
-	/**
-	 * Methode pour la suggestion des recettes
-	 * 
-	 * @param name
-	 * @return
-	 */
 	public static Ingredient getIngeByName(String name) {
 		java.sql.Connection conn = null;
 		String r = null;
@@ -647,7 +683,7 @@ public abstract class Neo4J implements java.sql.Connection {
 
 	public static Ingredient getRandomIngred() throws SQLException, JSONException {
 
-		Ingredient i=new Ingredient();
+		Ingredient i = new Ingredient();
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
@@ -657,7 +693,7 @@ public abstract class Neo4J implements java.sql.Connection {
 		try (java.sql.Statement stmt = conn.createStatement()) {
 			java.sql.ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				r= rs.getString(1);
+				r = rs.getString(1);
 				JSONObject json = new JSONObject(r);
 				i.setId(Integer.parseInt(json.getString("idIngred")));
 				i.setName(json.getString("nameIngred"));
@@ -669,14 +705,13 @@ public abstract class Neo4J implements java.sql.Connection {
 		}
 		return i;
 	}
-	
+
 	public static ArrayList<Ingredient> getRatingIngred2(String name) throws JSONException {
 
-		HashMap<Integer, Integer> map = new HashMap<>();
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
-		String query = "MATCH (user:User{nameUser:'"+name+"'})-[lri:LIKE]->(ingred:Ingredient) return lri, ingred";
+		String query = "MATCH (user:User{nameUser:'" + name + "'})-[lri:LIKE]->(ingred:Ingredient) return lri, ingred";
 		ArrayList<Ingredient> lisIng = new ArrayList<>();
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
@@ -696,11 +731,64 @@ public abstract class Neo4J implements java.sql.Connection {
 				i.setScore(scoreJson.getString("rateIngred"));
 				lisIng.add(i);
 				System.out.println(i.toString());
-		}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return lisIng;
+	}
+
+	public static ArrayList<Recipe> getRecipeFromFrigo(ArrayList<String> ListeIngred) throws JSONException {
+
+		/**
+		 * Construction de la requête
+		 */
+		String q = "MATCH (a:Recipe)-[:IS_COMPOSED_TO]->(i:Ingredient)\n" + "WHERE i.nameIngred IN [";
+		for (int i = 0; i < ListeIngred.size() - 1; i++) {
+			q += "'" + ListeIngred.get(i) + "'";
+			q += ",";
+		}
+		q += "'" + ListeIngred.get(ListeIngred.size() - 1) + "'] RETURN a limit 10";
+
+		// Connect
+		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
+		conn = sc.conn;
+		ArrayList<Recipe> listRecipe = new ArrayList<>();
+		try (java.sql.Statement stmt = conn.createStatement()) {
+			java.sql.ResultSet rs = stmt.executeQuery(q);
+			if (rs == null)
+				System.out.println("RS NULL");
+			while (rs.next()) {
+				Recipe r = new Recipe();
+				String recipe = rs.getString(1);
+				JSONObject recipeJson = new JSONObject(recipe);
+				r.setTitle(recipeJson.getString("title"));
+				r.setIdRecipe(recipeJson.getInt("idRecipe"));
+				System.out.println(r);
+				listRecipe.add(r);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return listRecipe;
+	}
+
+	public static void addIngredientToFrigo(String idIngred, String mailUser) throws JSONException, SQLException {
+
+		/**
+		 * Construction de la requête
+		 */
+		String q = "MATCH (u:User{mail:'" + mailUser + "'}),(i:Ingredient{idIngred:'" + idIngred
+				+ "'}) CREATE (u)-[:HAS_IN_FRIDGE]-(i)";
+
+		// Connect
+		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
+		conn = sc.conn;
+		java.sql.Statement stmt = conn.createStatement();
+		java.sql.ResultSet rs = stmt.executeQuery(q);
+		System.out.println("relation frigo ajouté");
+		
 	}
 
 }

@@ -28,8 +28,8 @@
 	<div class="container">
 		<div class="row d-flex justify-content-center">
 			<c:forEach items="${ing}" var="r">
-				<div class="card d-flex" style="width: 18rem; margin: 20px;">
-					<img class="card-img-top" src="${r.photo}" alt="image Ingredient">
+				<div class="card d-flex justify-content-center" style="width: 18rem; margin: 20px;">
+					<img class="card-img-top" src="${r.photo}" alt="image Ingredient" style="width: 100px; height: 100px">
 					<div class="card-body">
 						<h5 class="card-title"><b>${r.name}</b></h5>
 						<h6>Note : <b>${r.score}</b></h6>

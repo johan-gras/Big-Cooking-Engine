@@ -1,13 +1,9 @@
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
 <!DOCTYPE html>
-
-
 <html>
-
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,11 +31,11 @@
 		<div class="col d-block mx-auto"
 			style="background-color: white; width: 50%;">
 
-			<b>Infos presonnelles</b>
+			<b>Informations personnelles</b>
 			<ul>
-				<li><b>Nom: </b>${user}</li>
-				<li><b>Prénom: </b>Kenny</li>
-				<li><b>Date de Naissance: </b>18/11/1988</li>
+				<li><b>Nom: </b>${nameUser}</li>
+				<li><b>Mail: </b>${mail}</li>
+				<li><b>Poids </b>${poids}</li>
 			</ul>
 
 		</div>

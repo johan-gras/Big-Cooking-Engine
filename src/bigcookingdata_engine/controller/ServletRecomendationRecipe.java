@@ -37,20 +37,21 @@ public class ServletRecomendationRecipe extends HttpServlet {
 			throws ServletException, IOException {
 		
 	    
-		Session.getInstance().connection("aa@aa.aa", "a");
+		//Session.getInstance().connection("aa@aa.aa", "a");
 
 		Recommender reco = new Recommender();
 		
 		ArrayList<Recipe> li = new ArrayList<>();
 		
 		li = reco.getRecipes_recommended();
-
+		String nameuser=Session.getInstance().getUser().getName();
 		System.out.println("nb Recettes recommendées: " + li.size());
-		System.out.println("nb taille stpe" + li.get(1).getIngredients().size());
-		
-		
+		System.out.println("nb taille step" + li.get(1).getIngredients().size());
+		String name = Session.getInstance().getUser().getName();
+		request.setAttribute("username", name);
+		request.setAttribute("User", nameuser);
 		request.setAttribute("rec", li);
-
+		
 		request.getRequestDispatcher("index.jsp").forward(request, response);
 	}
 
