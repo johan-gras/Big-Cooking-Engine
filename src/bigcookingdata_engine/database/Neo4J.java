@@ -594,8 +594,8 @@ public abstract class Neo4J implements java.sql.Connection {
 		}
 	}
 
-	public static ArrayList<String> getSimilarUser(String mail) throws JSONException {
-		
+	public static ArrayList<String> getSimilarUser(String mail) throws JSONException, SQLException {
+		calculEuclideanDistance();
 		ArrayList<String> list = new ArrayList<>();
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
@@ -621,7 +621,7 @@ public abstract class Neo4J implements java.sql.Connection {
 
 	}
 	
-	public static ArrayList<Integer> getBestRecipe(String mail) throws JSONException{
+	public static ArrayList<Integer> getBestRecipe(String mail) throws JSONException, SQLException{
 		
 		ArrayList<String> list = new ArrayList<>();
 		ArrayList<Integer> result = new ArrayList<>();
