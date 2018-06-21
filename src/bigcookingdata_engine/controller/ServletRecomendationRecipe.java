@@ -43,7 +43,7 @@ public class ServletRecomendationRecipe extends HttpServlet {
 		
 		ArrayList<Recipe> li = new ArrayList<>();
 		
-		li = reco.getRecipes_recommended();
+		li = reco.getRecoSuper();
 		String nameuser=Session.getInstance().getUser().getName();
 		System.out.println("nb Recettes recommendées: " + li.size());
 		System.out.println("nb taille step" + li.get(1).getIngredients().size());
