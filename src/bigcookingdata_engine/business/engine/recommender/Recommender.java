@@ -7,21 +7,31 @@ import bigcookingdata_engine.database.Neo4J;
 import java.util.*;
 
 public class Recommender {
-    private ArrayList<Recipe> recipes_perso = null;
-    private ArrayList<RecommenderCell> cells = new ArrayList<>();
 
     public Recommender(){
+
+    }
+
+    public ArrayList<Recipe> getRecoByCluster(){
+        ArrayList<RecommenderCell> cells = new ArrayList<>();
+        cells.add(new RecommenderByCluster());
+        return recommend(cells);
+    }
+
+    public ArrayList<Recipe> getRecoByIngred(){
+        ArrayList<RecommenderCell> cells = new ArrayList<>();
+        cells.add(new RecommenderByIngred());
+        return recommend(cells);
+    }
+
+    public ArrayList<Recipe> getRecoSuper(){
+        ArrayList<RecommenderCell> cells = new ArrayList<>();
         cells.add(new RecommenderByCluster());
         cells.add(new RecommenderByIngred());
+        return recommend(cells);
     }
 
-    public ArrayList<Recipe> getRecipes_recommended() {
-        if (recipes_perso == null)
-            recommend();
-        return recipes_perso;
-    }
-
-    public void recommend(){
+    private ArrayList<Recipe> recommend(ArrayList<RecommenderCell> cells){
         // Weights
         HashMap<Integer, Integer> map = new HashMap<>();
         for (RecommenderCell cell : cells)
@@ -45,15 +55,12 @@ public class Recommender {
                 id_recipes.add(id);
         }
         System.out.println(id_recipes);
-        recipes_perso = Neo4J.getRecipes(id_recipes.stream().mapToInt(i -> i).toArray());
+        return Neo4J.getRecipes(id_recipes.stream().mapToInt(i -> i).toArray());
     }
 
     public static void main(String[] args){
         Session.getInstance().connection("aa@aa.aa", "a");
         Recommender reco = new Recommender();
-        reco.recommend();
-        ArrayList<Recipe> li = new ArrayList<>();
-        li = reco.getRecipes_recommended();
-        System.out.println("NBRECETTES RECO::QND@"+li.size());
+        System.out.println(reco.getRecoSuper());
     }
 }

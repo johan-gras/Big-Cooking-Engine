@@ -22,17 +22,4 @@ public class RecommenderByIngred extends RecommenderCell {
         }
         return map;
     }
-
-    // Fake db
-    private HashMap<Integer, Integer> getRatingIngred() {
-        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
-        map.put(1, 10);
-        map.put(2, 10);
-        map.put(4, 10);
-        return map;
-    }
-
-    private int[] getIdRecipesByIngred(int id_ingred){
-        return new int[] {id_ingred*4, 2+id_ingred*4, 3+id_ingred*4, 1+id_ingred*4};
-    }
 }
