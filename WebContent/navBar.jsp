@@ -23,9 +23,17 @@
 				href="ServletRatedIng" style="color: green;">Mes Ingrédients
 					favoris <span class="sr-only">(current)</span>
 			</a></li>
+			
+			<li class="nav-item active"><a class="nav-link"
+				href="ServletFrigo" style="color: green;">Contenu du frigo
+					favoris <span class="sr-only">(current)</span>
+			</a></li>
+			
 			<li class="nav-item active"><a class="nav-link"
 				href="LogOut" style="color: red;">Déconnexion <span class="sr-only">(current)</span>
 			</a></li>
+			
+			
 
 		</ul>
 		<form class="form-inline my-2 my-lg-0">

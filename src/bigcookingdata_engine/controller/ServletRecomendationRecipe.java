@@ -52,7 +52,7 @@ public class ServletRecomendationRecipe extends HttpServlet {
 		request.setAttribute("User", nameuser);
 		request.setAttribute("rec", li);
 		
-		request.getRequestDispatcher("index.jsp").forward(request, response);
+		request.getRequestDispatcher("profile.jsp").forward(request, response);
 	}
 
 	/**

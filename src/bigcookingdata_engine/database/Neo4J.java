@@ -24,11 +24,12 @@ public abstract class Neo4J implements java.sql.Connection {
 		ArrayList<Recipe> al = new ArrayList<>();
 		ArrayList<Utensil> sl = new ArrayList<>();
 		ArrayList<String> l = new ArrayList<>();
+		//getIngreFromFridge("sofiane@sofiane.fr");
 		// l.add("Sel");
 		// l.add("fromage");
 		// getRecipeFromFrigo(l);
 
-		addIngredientToFrigo("159", "sofiane.hamiti18@outlook.fr");
+		addIngredientToFrigo("15", "sofiane@sofiane.fr");
 
 		// calculEuclideanDistance(324);
 		// System.out.println("Rating ing: "+getRatingIngred2("aa@aa.aa"));
@@ -780,15 +781,45 @@ public abstract class Neo4J implements java.sql.Connection {
 		 * Construction de la requête
 		 */
 		String q = "MATCH (u:User{mail:'" + mailUser + "'}),(i:Ingredient{idIngred:'" + idIngred
-				+ "'}) CREATE (u)-[:HAS_IN_FRIDGE]-(i)";
+				+ "'}) MERGE (u)-[:HAS_IN_FRIDGE]->(i)";
 
 		// Connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
 		java.sql.Statement stmt = conn.createStatement();
 		java.sql.ResultSet rs = stmt.executeQuery(q);
-		System.out.println("relation frigo ajouté");
+		System.out.println("relation frigo ajout�");
 		
+	}
+	
+	public static ArrayList<Ingredient> getIngreFromFridge(String mailUser) throws JSONException, SQLException {
+
+		/**
+		 * Construction de la requête
+		 */
+		String q = "MATCH (u:User{mail:'" + mailUser + "'})-[:HAS_IN_FRIDGE]->(i) return i";
+
+		// Connect
+		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
+		conn = sc.conn;
+		ArrayList<Ingredient> listIngred = new ArrayList<>();
+		try (java.sql.Statement stmt = conn.createStatement()) {
+			java.sql.ResultSet rs = stmt.executeQuery(q);
+			if (rs == null)
+				System.out.println("RS NULL");
+			while (rs.next()) {
+				Ingredient i = new Ingredient();
+				String recipe = rs.getString(1);
+				JSONObject ingredJson = new JSONObject(recipe);
+				i.setId(ingredJson.getInt("idIngred"));
+				i.setName(ingredJson.getString("nameIngred"));
+				i.setPhoto(ingredJson.getString("photoIngred"));
+				listIngred.add(i);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return listIngred;
 	}
 
 }

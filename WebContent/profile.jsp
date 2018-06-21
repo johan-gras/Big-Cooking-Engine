@@ -49,6 +49,29 @@
 
 	</div>
 
+
+	<div class="d-flex justify-content-center">
+		<div class="card d-flex justify-content-center"
+			style="width: 24rem; margin: 20px;">
+			<h1 style="color: gray;" class="d-flex justify-content-center"> Frigo Virtuel</h1>
+			<ol>
+				<c:forEach items="${listIngred}" var="i">
+					<div class="container">
+						<div class="row">
+							<div class="card-body">
+								<h5 class="card-title">
+									<b>${i.name}</b>
+								</h5>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+			</ol>
+		</div>
+	</div>
+
+
+
 </body>
 
 </html>
