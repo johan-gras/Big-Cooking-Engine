@@ -8,10 +8,6 @@ import java.util.*;
 
 public class Recommender {
 
-    public Recommender(){
-
-    }
-
     public ArrayList<Recipe> getRecoByCluster(){
         ArrayList<RecommenderCell> cells = new ArrayList<>();
         cells.add(new RecommenderByCluster());
@@ -21,6 +17,12 @@ public class Recommender {
     public ArrayList<Recipe> getRecoByIngred(){
         ArrayList<RecommenderCell> cells = new ArrayList<>();
         cells.add(new RecommenderByIngred());
+        return recommend(cells);
+    }
+
+    public ArrayList<Recipe> getRecoByUser(){
+        ArrayList<RecommenderCell> cells = new ArrayList<>();
+        cells.add(new RecommenderByUser());
         return recommend(cells);
     }
 
@@ -59,8 +61,8 @@ public class Recommender {
     }
 
     public static void main(String[] args){
-        Session.getInstance().connection("aa@aa.aa", "a");
+        Session.getInstance().connection("aissam@gmail.com", "a");
         Recommender reco = new Recommender();
-        System.out.println(reco.getRecoSuper());
+        System.out.println(reco.getRecoByUser());
     }
 }

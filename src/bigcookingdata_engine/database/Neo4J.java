@@ -42,7 +42,7 @@ public abstract class Neo4J implements java.sql.Connection {
 //		ratingRecipe("max", 40, 7);
 //		ratingRecipe("max", 432, 7);
 //		ratingRecipe("max",654, 7);
-		getBestRecipe("aissam@gmail.com");
+		System.out.println(getBestRecipe("aissam@gmail.com"));
 		
 
 	}
@@ -106,7 +106,12 @@ public abstract class Neo4J implements java.sql.Connection {
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
 		//String query = "match (s:Step)-[:IS_STEP]->(:Recipe{idRecipe:'" + idRecip + "'}) return s";
-		String query =" match (s:Step)-[:IS_STEP]->(:Recipe{idRecipe:'" + idRecip + "'}) return s";
+ 
+
+		String query = "match (s:Step)-[:IS_STEP]->(:Recipe{idRecipe:'"+idRecip+"'}) "
+						+"with toInt(s.numberStep) AS nb, s "
+						+"return s order by nb";
+		System.out.println(query);
 		// Querying
 		try (java.sql.Statement stmt = conn.createStatement()) {
 			java.sql.ResultSet rs = stmt.executeQuery(query);
@@ -119,7 +124,7 @@ public abstract class Neo4J implements java.sql.Connection {
 				step.setNumberStep(json.getInt("numberStep"));
 				step.setDescStep(json.getString("detailStep"));
 				stepList.add(step);
-				// System.out.println(json.getString("detailStep"));
+				System.out.println(json.getString("detailStep"));
 			}
 		}
 		return stepList;
@@ -626,14 +631,20 @@ public abstract class Neo4J implements java.sql.Connection {
 
 	}
 	
-	public static ArrayList<Integer> getBestRecipe(String mail) throws JSONException, SQLException{
+	public static ArrayList<Integer> getBestRecipe(String mail) {
 		
 		ArrayList<String> list = new ArrayList<>();
 		ArrayList<Integer> result = new ArrayList<>();
 
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
-		list=getSimilarUser(mail);
+		try {
+			list=getSimilarUser(mail);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		for(int i=0;i<list.size();i++){
 		String query = "MATCH (u:User{mail:'"+list.get(i)+"'}),(r:Recipe),(u)-[l:LIKE]->(r) "
 				+"return r.idRecipe ORDER BY toInt(l.score) DESC limit 3";
@@ -658,13 +669,13 @@ public abstract class Neo4J implements java.sql.Connection {
 	
 	
 
-	public static Ingredient getIngeByName(String name) {
+	public static int getIngeByName(String name) {
 		java.sql.Connection conn = null;
 		String r = null;
+		int id = -1;
 		// connect
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
-		Ingredient i = new Ingredient();
 		// requête
 		String req = "match (i:Ingredient{nameIngred:'" + name + "'}) return i;";
 
@@ -674,13 +685,12 @@ public abstract class Neo4J implements java.sql.Connection {
 			while (rs.next()) {
 				r = rs.getString(1);
 				JSONObject json = new JSONObject(r);
-				i.setName(name);
-				i.setId(json.getInt("idIngred"));
+				id=json.getInt("idIngred");
 			}
 		} catch (Exception e) {
 		}
 
-		return i;
+		return id;
 	}
 
 	public static Ingredient getRandomIngred() throws SQLException, JSONException {
