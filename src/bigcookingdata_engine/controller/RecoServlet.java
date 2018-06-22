@@ -21,6 +21,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import bigcookingdata_engine.business.engine.Session;
+import bigcookingdata_engine.database.Neo4J;
+
 @WebServlet("/RecoServlet")
 
 
@@ -109,8 +112,36 @@ public class RecoServlet extends HttpServlet {
                //System.out.println(file);
                
               // callApi
-               System.out.println(RecoServlet.callApi(file.toString()));
-               out.println(RecoServlet.callApi(file.toString()));
+               String nameIngred = RecoServlet.callApi(file.toString()).toString();
+               System.out.println(nameIngred);
+               //out.println(RecoServlet.callApi(file.toString()));
+               int id = 0;
+               if(nameIngred.equals("Banana"))
+            	   id = 9;
+               if(nameIngred.equals("Apple"))
+            	   id = 8;
+               if(nameIngred.equals("Orange"))
+            	   id = 34;
+               if(nameIngred.equals("Ananas"))
+            	   id = 273;
+               if(nameIngred.equals("Apricot"))
+            	   id = 347;
+               if(nameIngred.equals("Cherry"))
+            	   id = 87;
+               if(nameIngred.equals("Grapefruit"))
+            	   id = 124;
+               if(nameIngred.equals("Lemon"))
+            	   id = 65;
+               if(nameIngred.equals("Melon"))
+            	   id = 476 ;
+               if(nameIngred.equals("Strawberry"))
+            	   id = 283 ;
+               
+               
+               
+               
+               Neo4J.addIngredientToFrigo(Integer.toString(id), Session.getInstance().getUser().getMail());
+               
             }
          }
          out.println("</body>");
@@ -133,9 +164,7 @@ public class RecoServlet extends HttpServlet {
     	  HttpResponse response = client.execute(request);
     	  BufferedReader rd = new BufferedReader (new InputStreamReader(response.getEntity().getContent()));
     	  String line = "";
-    	  while ((line = rd.readLine()) != null) {
-    	    System.out.println(line);
-    	  }
+    	  line = rd.readLine();
     	  return line;
       }
 }

@@ -678,7 +678,7 @@ public abstract class Neo4J implements java.sql.Connection {
 		conn = sc.conn;
 		// requÃªte
 		String req = "match (i:Ingredient{nameIngred:'" + name + "'}) return i;";
-
+		System.out.println(req);
 		try {
 			java.sql.Statement stmt = conn.createStatement();
 			java.sql.ResultSet rs = stmt.executeQuery(req);
@@ -795,11 +795,12 @@ public abstract class Neo4J implements java.sql.Connection {
 				+ "'}) MERGE (u)-[:HAS_IN_FRIDGE]->(i)";
 
 		// Connect
+		System.out.println(q);
 		SingletonConnectionNeo4j sc = SingletonConnectionNeo4j.getDbConnection();
 		conn = sc.conn;
 		java.sql.Statement stmt = conn.createStatement();
 		java.sql.ResultSet rs = stmt.executeQuery(q);
-		System.out.println("relation frigo ajouté");
+		System.out.println("relation frigo ajoutï¿½");
 		
 	}
 	
