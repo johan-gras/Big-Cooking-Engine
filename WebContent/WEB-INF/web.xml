@@ -4,4 +4,11 @@
   <welcome-file-list>
     <welcome-file>Index</welcome-file>
   </welcome-file-list>
+<context-param> 
+      <description>Location to store uploaded file</description> 
+      <param-name>file-upload</param-name> 
+      <param-value>
+         /Users/utilisateur/git/BigCookingEngine/data/
+      </param-value> 
+   </context-param>
 </web-app>
