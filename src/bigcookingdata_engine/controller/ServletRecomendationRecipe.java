@@ -47,8 +47,7 @@ public class ServletRecomendationRecipe extends HttpServlet {
 		
 		System.out.println("nb recette recommendé"+li.size());
 		String nameuser=Session.getInstance().getUser().getName();
-		System.out.println("nb Recettes recommendées: " + li.size());
-		System.out.println("nb taille step" + li.get(1).getIngredients().size());
+		
 		String name = Session.getInstance().getUser().getName();
 		request.setAttribute("username", name);
 		request.setAttribute("User", nameuser);

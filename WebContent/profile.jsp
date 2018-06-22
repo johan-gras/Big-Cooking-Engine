@@ -44,8 +44,7 @@
 	<div class="col">
 
 		<a class="btn btn-primary btn-lg btn-block d-block mx-auto"
-			href="ServletRecomendationRecipe" role="button" style="width: 50%;">Recommander
-			3 recettes</a>
+			href="ServletRecomendationRecipe" role="button" style="width: 50%;">Recettes surprise</a>
 			<br>
 			<br>
 			<form class="form-inline d-flex justify-content-center" action="ServletSearchIngrd" method="post">

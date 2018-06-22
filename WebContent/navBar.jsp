@@ -10,10 +10,10 @@
 	<p>Connecté: <b>${username}</b></p>
 	
 	<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-		<a class="navbar-brand" href="index.jsp">Page d'accueil</a>
+		<a class="navbar-brand" href="RecommendationIndex">Page d'accueil</a>
 		<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 			<li class="nav-item active"><a class="nav-link"
-				href="profile.jsp" style="color: green;">Profile <span class="sr-only">(current)</span>
+				href="ServletFrigo" style="color: green;">Profile <span class="sr-only">(current)</span>
 			</a></li>
 			<li class="nav-item active"><a class="nav-link"
 				href="ServletRecomendationRecipe" style="color: green;">Mes recommendations</a></li>
