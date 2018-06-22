@@ -41,6 +41,21 @@ public class CreatUser extends HttpServlet {
 			Neo4J.createUser(user_name, email, pass, poids);
 			System.out.println("user created !!");
 			Session.getInstance().connection( email,pass );
+	        Neo4J.ratingIngred(email, 2, 7);
+	        Neo4J.ratingIngred(email, 90, 8);
+	        Neo4J.ratingIngred(email, 34, 6);
+	        Neo4J.ratingIngred(email, 123, 1);
+	        Neo4J.ratingIngred(email, 122, 5);
+	        Neo4J.ratingIngred(email, 23, 6);
+	        Neo4J.ratingCluster(email, 1, 70);
+	        Neo4J.ratingCluster(email, 2, 30);
+	        Neo4J.ratingCluster(email, 3, 20);
+	        Neo4J.ratingRecipe(email, 389, 2);
+	        Neo4J.ratingRecipe(email, 34, 4);
+	        Neo4J.ratingRecipe(email, 36, 9);
+	        Neo4J.ratingRecipe(email, 16, 10);
+			
+			
 			request.getRequestDispatcher("/ServeltRateIngred").forward(request, response);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

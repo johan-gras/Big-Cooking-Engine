@@ -36,6 +36,13 @@ public class ServletFrigo extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		String name = Session.getInstance().getUser().getName();
+		String mail = Session.getInstance().getUser().getMail();
+		String poid = Session.getInstance().getUser().getWeight();
+		
+		request.setAttribute("nameUser", name);
+		request.setAttribute("mail", mail );
+		request.setAttribute("poids", poid);
 		request.setAttribute("listIngred", listIngredFrigo);
 		request.getRequestDispatcher("profile.jsp").forward(request, response);
 	}

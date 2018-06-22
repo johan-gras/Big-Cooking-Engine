@@ -22,6 +22,9 @@ public class CreateData {
         Neo4J.ratingIngred("max@gmail.com", 23, 3);
         Neo4J.ratingIngred("max@gmail.com", 43, 5);
         Neo4J.ratingIngred("max@gmail.com", 23, 4);
+        Neo4J.ratingCluster("max@gmail.com", 1, 70);
+        Neo4J.ratingCluster("max@gmail.com", 2, 30);
+        Neo4J.ratingCluster("max@gmail.com", 3, 20);
         Neo4J.ratingRecipe("max@gmail.com", 234, 9);
         Neo4J.ratingRecipe("max@gmail.com", 24, 9);
         Neo4J.ratingRecipe("max@gmail.com", 14, 10);
@@ -35,6 +38,9 @@ public class CreateData {
         Neo4J.ratingIngred("aissam@gmail.com", 43, 1);
         Neo4J.ratingIngred("aissam@gmail.com", 53, 5);
         Neo4J.ratingIngred("aissam@gmail.com", 59, 6);
+        Neo4J.ratingCluster("aissam@gmail.com", 1, 70);
+        Neo4J.ratingCluster("aissam@gmail.com", 2, 30);
+        Neo4J.ratingCluster("aissam@gmail.com", 3, 20);
         Neo4J.ratingRecipe("aissam@gmail.com", 124, 5);
         Neo4J.ratingRecipe("aissam@gmail.com", 165, 9);
         Neo4J.ratingRecipe("aissam@gmail.com", 345, 6);
@@ -48,6 +54,11 @@ public class CreateData {
         Neo4J.ratingIngred("sofiane@gmail.com", 123, 1);
         Neo4J.ratingIngred("sofiane@gmail.com", 122, 5);
         Neo4J.ratingIngred("sofiane@gmail.com", 23, 6);
+        Neo4J.ratingCluster("sofiane@gmail.com", 1, 70);
+        Neo4J.ratingCluster("sofiane@gmail.com", 2, 30);
+        Neo4J.ratingCluster("sofiane@gmail.com", 3, 20);
+        
+        
         Neo4J.ratingRecipe("sofiane@gmail.com", 389, 2);
         Neo4J.ratingRecipe("sofiane@gmail.com", 34, 4);
         Neo4J.ratingRecipe("sofiane@gmail.com", 36, 9);

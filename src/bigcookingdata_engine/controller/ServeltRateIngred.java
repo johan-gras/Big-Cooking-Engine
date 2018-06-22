@@ -36,15 +36,13 @@ public class ServeltRateIngred extends HttpServlet {
 //		//int r = Integer.parseInt(rate);
 //		System.out.println("premier rate "+r);
 //		}
+		
 		try {
 			i = Neo4J.getRandomIngred();
-			System.out.println(i.getName());
-			System.out.println(i.getPhoto());
+			
 			String path = i.getPhoto();
 			String truePath = path.replace("C:\\Users\\Admin\\", "");
-			System.out.println("True Path "+ truePath);
 			i.setPhoto(truePath);
-			System.out.println("session: " +Session.getInstance().getUser().getName());
 			Neo4J.ratingIngred(Session.getInstance().getUser().getMail(), i.getId(), intRate);
 			String name = Session.getInstance().getUser().getName();
 			request.setAttribute("username", name);
@@ -55,6 +53,7 @@ public class ServeltRateIngred extends HttpServlet {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		
 		
 		//	Neo4J.ratingIngred("aa@aa.aa", i.getId(), r);
 		request.getRequestDispatcher("SuggestionIng.jsp").forward(request, response);

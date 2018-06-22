@@ -33,7 +33,7 @@ public class ConnexionForm extends HttpServlet {
 		String email = request.getParameter("email");
 		String pwd = request.getParameter("pwd");
 		String name = Session.getInstance().connection( email,pwd );
-		String mail = Session.getInstance().getUser().getMail();
+		String mail =Session.getInstance().getUser().getMail();
         if (mail != null && Neo4J.connection(mail, pwd)!=null){
         	User u  = new User();
         	u= Neo4J.connection(email, pwd);
